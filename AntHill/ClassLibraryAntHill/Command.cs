@@ -16,10 +16,10 @@ namespace ClassLibraryAntHill
 
     public class Command
     {
-        private double X { get; }
-        private double Y { get; }
-        private Action action { get;}
-        public Command(Action act,int x,int y)
+        public double X { get; }
+        public double Y { get; }
+        public Action action { get;}
+        public Command(Action act,double x,double y)
         {
             X = x;
             Y = y;
@@ -27,6 +27,8 @@ namespace ClassLibraryAntHill
         }
         public Command(Action act)
         {
+            X = -1;
+            Y = -1;
             action = act;
         }
     }
