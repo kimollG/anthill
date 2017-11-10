@@ -47,7 +47,7 @@
             this.pictureBoxAntHill.Dock = System.Windows.Forms.DockStyle.Left;
             this.pictureBoxAntHill.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxAntHill.Name = "pictureBoxAntHill";
-            this.pictureBoxAntHill.Size = new System.Drawing.Size(844, 406);
+            this.pictureBoxAntHill.Size = new System.Drawing.Size(844, 554);
             this.pictureBoxAntHill.TabIndex = 0;
             this.pictureBoxAntHill.TabStop = false;
             // 
@@ -81,7 +81,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1040, 406);
+            this.ClientSize = new System.Drawing.Size(1040, 554);
             this.Controls.Add(this.buttonEnter);
             this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.label1);

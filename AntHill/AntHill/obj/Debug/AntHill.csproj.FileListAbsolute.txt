@@ -1,0 +1,10 @@
+C:\Users\bereg\Desktop\AntHill\AntHill\bin\Debug\AntHill.exe
+C:\Users\bereg\Desktop\AntHill\AntHill\bin\Debug\AntHill.pdb
+C:\Users\bereg\Desktop\AntHill\AntHill\bin\Debug\ClassLibraryAntHill.dll
+C:\Users\bereg\Desktop\AntHill\AntHill\bin\Debug\ClassLibraryAntHill.pdb
+C:\Users\bereg\Desktop\AntHill\AntHill\obj\Debug\AntHill.csprojResolveAssemblyReference.cache
+C:\Users\bereg\Desktop\AntHill\AntHill\obj\Debug\AntHill.FormAntHill.resources
+C:\Users\bereg\Desktop\AntHill\AntHill\obj\Debug\AntHill.Properties.Resources.resources
+C:\Users\bereg\Desktop\AntHill\AntHill\obj\Debug\AntHill.csproj.GenerateResource.Cache
+C:\Users\bereg\Desktop\AntHill\AntHill\obj\Debug\AntHill.exe
+C:\Users\bereg\Desktop\AntHill\AntHill\obj\Debug\AntHill.pdb

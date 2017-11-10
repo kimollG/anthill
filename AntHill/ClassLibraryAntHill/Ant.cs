@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ClassLibraryAntHill
 {
-    public class Ant
+    public abstract class Ant
     {
         private double x;
         private double y;
@@ -17,10 +17,8 @@ namespace ClassLibraryAntHill
         private string name;
         public int Hp { get; }
         public List<Command> commands;
-        public virtual int Thinking()
-        {
-            return -1;
-        }
+        public abstract int Thinking();
+
         public void Move(double dx,double dy)
         {
             lx = x;
@@ -28,20 +26,17 @@ namespace ClassLibraryAntHill
             x = x + dx;
             y = y + dy;
         }
+        private static Random rnd= new Random();
         public Ant(double x ,double y,string name)
         {
             this.x = x;
             this.y = y;
-            Random rnd = new Random();
             double a = Math.PI * rnd.NextDouble();
             Move(Math.Cos(a), Math.Sin(a));
             Hp = 100;
             commands = new List<Command>();
             this.name = name;
         }
-        public virtual void  BeAttak()
-        {
-
-        }
+        public abstract void BeAttak();
     }
 }

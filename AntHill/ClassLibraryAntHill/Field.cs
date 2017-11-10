@@ -10,6 +10,7 @@ namespace ClassLibraryAntHill
     {
         public class AntBuilder : Ant
         {
+            private const int speed = 3;
             private List<Food> OpenFoods;
             public bool Bring { get; private set; }
             public AntBuilder(double x, double y, string name) : base(x, y, name)
@@ -17,14 +18,15 @@ namespace ClassLibraryAntHill
                 OpenFoods = new List<Food>();
                 Bring = false;
             }
+            public override void BeAttak()
+            {
+            }
             public void GiveOpenFoods(List<Food> food)
             {
-                OpenFoods.RemoveAll(x => true);
                 OpenFoods = food;
             }
             public override int Thinking()
             {
-                base.Thinking();
                 int index = MinDictance();
                 if (commands[0].action == Action.findfood)
                 {
@@ -35,16 +37,18 @@ namespace ClassLibraryAntHill
                     }
                     else
                     {
-                        if (X > 10 && X < 1300 && Y > 10 && Y < 700)
+                        if (X > 10 && X < 650 && Y > 10 && Y < 400)
                         {
-                            double a = Math.Atan2((LastY - Y), (LastX - X));
-                            Move(Math.Cos(a), Math.Sin(a));
+                            double a =Math.Atan((LastY - Y)/(LastX - X));
+                            Move(Math.Cos(a)*speed, Math.Sin(a)*speed);
                             return -2;
                         }
                         else
                         {
-                            commands.RemoveAll(x => true);
+                            commands.Clear();
                             commands.Add(new Command(Action.gotoAntHill, 100, 100));
+                            double a = Math.Atan((100 - Y) / (100 - X));
+                            Move(Math.Cos(a), Math.Sin(a));
                         }
                         
                     }
@@ -52,18 +56,36 @@ namespace ClassLibraryAntHill
 
                 if (commands[0].action == Action.gotoFood)
                 {
-                    double d = Math.Sqrt((X - OpenFoods[index].X) * (X - OpenFoods[index].X) + (Y - OpenFoods[index].Y) * (Y - OpenFoods[index].Y));
-                    if (d < 10)
+                    if (index == -1)
                     {
-                        commands.RemoveAll(x => true);
-                        commands.Add(new Command(Action.gotoAntHill, 100, 100));
-                        Bring = true;
-                        return index;
+                        commands.Clear();
+                        commands.Add(new Command(Action.findfood));
                     }
                     else
                     {
-                        double a = Math.Atan2((OpenFoods[index].Y - Y),(OpenFoods[index].X - X));
-                        Move(Math.Cos(a), Math.Sin(a));
+                        double d = Math.Sqrt((X - OpenFoods[index].X) * (X - OpenFoods[index].X) + (Y - OpenFoods[index].Y) * (Y - OpenFoods[index].Y));
+                        if (d < 10)
+                        {
+                            commands.Clear();
+                            commands.Add(new Command(Action.gotoAntHill, 100, 100));
+                            double a = Math.Atan((OpenFoods[index].Y - Y) / (OpenFoods[index].X - X));
+                            Move(Math.Cos(a), Math.Sin(a));
+                            Bring = true;
+                            OpenFoods[index].ChangeFood();
+                        }
+                        else
+                        {
+                            double a = Math.Atan((OpenFoods[index].Y - Y) / (OpenFoods[index].X - X));
+                            double al = AntMath.GetAnkleBetwentwoVector(-OpenFoods[index].X + X, -OpenFoods[index].Y + Y, X - LastX, Y - LastY);
+                            if (Math.Abs(al) < Math.PI / 2)
+                            {
+                                Move(Math.Cos(a), Math.Sin(a));
+                                return -1;
+                            }
+
+                                Move( Math.Cos(a) * speed, Math.Sin(a) * speed);
+    
+                        }
                     }
                 }
                 if (commands[0].action == Action.gotoAntHill)
@@ -77,11 +99,24 @@ namespace ClassLibraryAntHill
                     }
                     else
                     {
-                        double a = Math.Atan2((100 - Y), (100 - X));
-                        Move(Math.Cos(a), Math.Sin(a));
+                        double a = Math.Atan((100 - Y)/(100 - X));
+                        double al = AntMath.GetAnkleBetwentwoVector( X - 100 ,  Y - 100 , X - LastX, Y - LastY);
+                        if (Math.Abs(al) < Math.PI / 2)
+                        {
+                            Move(-Math.Cos(a), -Math.Sin(a));
+                            return -2;
+                        }
+ 
+                            Move(- Math.Cos(a) * speed,-Math.Sin(a) * speed);
+
+                        return -2;
                     }
                 }
-                return -1;
+                if (!(X > 10 && X < 650 && Y > 10 && Y < 400))
+                {
+                    bool ok = true;
+                }
+                    return -1;
             }
             private int MinDictance()
             {
@@ -102,10 +137,10 @@ namespace ClassLibraryAntHill
         public List<Ant> Ants { get; private set; }
         public List<Ant> Pests { get; private set; }
         public List<Food> Foods { get; private set; }
-        public List<int> OpenFoods { get; private set; }
+        public List<Food> OpenFoods { get; private set; }
         public Field()
         {
-            OpenFoods = new List<int>();
+            OpenFoods = new List<Food>();
             Foods = new List<Food>();
             Pests = new List<Ant>();
             Ants = new List<Ant>();
@@ -114,50 +149,45 @@ namespace ClassLibraryAntHill
         {
             Ants.Add(new AntBuilder(x, y,name));
         }
+        public void BornFood(double x, double y)
+        {
+            Foods.Add(new Food(x, y));
+        }
         private void Alive()
         {
             Ants.RemoveAll(x => x.Hp <= 0);
             Pests.RemoveAll(x => x.Hp <= 0);
             Foods.RemoveAll(x => x.Hp <= 0);
+            OpenFoods.RemoveAll(x => x.Hp <= 0);
         }
         public void Process()
         {
-            for(int i=0;i<Ants.Count;i++)
+            for (int i = 0; i < Ants.Count; i++)
             {
-                if(Ants[i].commands.Count==0)
+                if (Ants[i].commands.Count == 0)
                 {
                     Ants[i].commands.Add(new Command(Action.findfood));
                 }
-                List<Food> food = new List<Food>();
-                for(int j=0;j<OpenFoods.Count;j++)
+
+                ((AntBuilder)Ants[i]).GiveOpenFoods(OpenFoods);
+                int h = Ants[i].Thinking();
+                if (h == -2)
                 {
-                    food.Add(Foods[OpenFoods[j]]);
-                }
-                ((AntBuilder)Ants[i]).GiveOpenFoods(food);
-                int h= Ants[i].Thinking();
-                if(h>=0)
-                {
-                    Foods[OpenFoods[h]].ChangeFood();
-                }
-                else
-                {
-                    if(h==-2)
+                    for (int j = 0; j < Foods.Count; j++)
                     {
-                        for(int j=0;j<Foods.Count;j++)
+                        double d = Math.Sqrt((Ants[i].X - Foods[j].X) * (Ants[i].X - Foods[j].X) + (Ants[i].Y - Foods[j].Y) * (Ants[i].Y - Foods[j].Y));
+                        if (d < 50)
                         {
-                            double d = Math.Sqrt((Ants[i].X - Foods[i].X) * (Ants[i].X - Foods[i].X) + (Ants[i].Y - Foods[i].Y) * (Ants[i].Y - Foods[i].Y));
-                            if(d<50)
+                            if (!OpenFoods.Exists(x => x == Foods[j]))
                             {
-                                if(!OpenFoods.Exists(x=>x==j))
-                                {
-                                    OpenFoods.Add(j);
-                                }
+                                OpenFoods.Add(Foods[j]);
                             }
                         }
                     }
                 }
-            }
 
+            }
+            Alive();
         }
     }
 }
