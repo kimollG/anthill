@@ -12,8 +12,10 @@ namespace ClassLibraryAntHill
         public List<Ant> Pests { get; private set; }
         public List<Food> Foods { get; private set; }
         public List<Food> OpenFoods { get; private set; }
-        public Field()
+        private AntHill Anthill;
+        public Field(AntHill Anthill)
         {
+            this.Anthill = Anthill;
             OpenFoods = new List<Food>();
             Foods = new List<Food>();
             Pests = new List<Ant>();
