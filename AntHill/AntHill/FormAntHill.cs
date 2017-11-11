@@ -53,32 +53,13 @@ namespace AntHill
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(Color.White);
             g.DrawEllipse(new Pen(Color.Black, 4), 30, 30, 140, 140);
-            for(int i=0;i<field.Ants.Count;i++)
+            foreach (Ant ant in field.Ants)
             {
-                double a = 180/ Math.PI*Math.Atan((field.Ants[i].LastY - field.Ants[i].Y) / (field.Ants[i].LastX - field.Ants[i].X));
-                g.TranslateTransform(Convert.ToSingle(field.Ants[i].X - 4), Convert.ToSingle(field.Ants[i].Y - 4));
-                g.RotateTransform(Convert.ToSingle(a));
-                if (((WorkerAnt)field.Ants[i]).IsBringing == false)
-                {
-                    g.FillEllipse(Brushes.Brown, 0, 0, 10, 6);
-                }
-                else
-                {
-                    g.FillEllipse(Brushes.Green, 0, 0, 10, 6);
-                }
-                float x = 8;
-                if (field.Ants[i].LastX > field.Ants[i].X)
-                    x = -2;
-                float y = 1.125f;
-                if (field.Ants[i].LastX > field.Ants[i].X)
-                    y *=1;
-                g.FillEllipse(Brushes.Black, x, y, 4, 4);
-                g.RotateTransform(-Convert.ToSingle(a));
-                g.TranslateTransform(-Convert.ToSingle(field.Ants[i].X - 4), -Convert.ToSingle(field.Ants[i].Y - 4));
+                ant.Draw(g);
             }
-            for (int i=0;i<field.Foods.Count;i++)
+            foreach (IDrawable food in field.Foods)
             {
-                g.FillEllipse(Brushes.Green, Convert.ToSingle(field.Foods[i].X - 5), Convert.ToSingle(field.Foods[i].Y - 5), 10, 10);
+                food.Draw(g);
             }
             pictureBoxAntHill.Image = bitmap;
         }

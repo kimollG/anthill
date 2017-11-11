@@ -3,9 +3,10 @@
   <Class Name="ClassLibraryAntHill.Ant">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAIIABAAAAAiCAAAAAAAEAAAEAABgAABAYAQ=</HashCode>
+      <HashCode>ACAEAAAAAKIABgAAAAiCAAAAAAAEAAAEAABgAABAYAQ=</HashCode>
       <FileName>Ant.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="ClassLibraryAntHill.AntHill" Collapsed="true">
     <Position X="3" Y="0.5" Width="1.5" />
@@ -31,31 +32,31 @@
   <Class Name="ClassLibraryAntHill.Field" Collapsed="true">
     <Position X="3" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEEAAAAAAAABAAAgIAAAEAAAAAAAAAAAAEAAQAAAA=</HashCode>
+      <HashCode>AAAEEAAAAAAAABAAAgAAAAEAAAAAAAAAAAAEAAQAAAA=</HashCode>
       <FileName>Field.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ClassLibraryAntHill.Food" Collapsed="true">
     <Position X="4.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACABAAAAAYAA=</HashCode>
+      <HashCode>ACAAAAAAACAAAgAAAAAAAAAAAAAAAAAACABAAAAAYAA=</HashCode>
       <FileName>Food.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="ClassLibraryAntHill.WorkerAnt" Collapsed="true">
     <Position X="2.5" Y="5" Width="1.5" />
     <InheritanceLine Type="ClassLibraryAntHill.Ant" FixedFromPoint="true">
       <Path>
-        <Point X="1.438" Y="5.199" />
-        <Point X="1.438" Y="6.066" />
-        <Point X="4.375" Y="6.066" />
-        <Point X="4.375" Y="4.625" />
-        <Point X="3.25" Y="4.625" />
-        <Point X="3.25" Y="5" />
+        <Point X="1.438" Y="5.776" />
+        <Point X="1.438" Y="6.016" />
+        <Point X="2.26" Y="6.016" />
+        <Point X="2.26" Y="5.346" />
+        <Point X="2.5" Y="5.346" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAEAAAAABAAAAAASAQAAAAAAAQAAAAAAAAQAAAA=</HashCode>
+      <HashCode>AAAAAAEAAAAABgAAAAASAQAAAAAAAQAAAAAAAAQAAAA=</HashCode>
       <FileName>WorkerAnt.cs</FileName>
     </TypeIdentifier>
   </Class>

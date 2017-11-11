@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace ClassLibraryAntHill
 {
-    public abstract class Ant
+    public abstract class Ant:IDrawable,IDispose
     {
+        public abstract void Draw(Graphics g);
         private double x;
         private double y;
         public double X { get { return x; } }
@@ -18,6 +20,19 @@ namespace ClassLibraryAntHill
         public int Hp { get; protected set; }
         public List<Command> commands;
         public abstract int Thinking();
+        protected DisposeMethod disp;
+        public DisposeMethod Dispose
+        {
+            get
+            {
+                return disp;
+            }
+
+            set
+            {
+                disp = value;
+            }
+        }
         AntHill home;
         public void Move(double dx,double dy)
         {

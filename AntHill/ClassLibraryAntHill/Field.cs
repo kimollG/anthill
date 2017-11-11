@@ -21,19 +21,19 @@ namespace ClassLibraryAntHill
         }
         public void BornAnt(double x,double y,string name)
         {
-            Ants.Add(new WorkerAnt(x, y,name,null));
+            Ants.Add(new WorkerAnt(x, y, name, null) { Dispose=(a)=>Ants.Remove((Ant)a)});
         }
         public void BornFood(double x, double y)
         {
-            Foods.Add(new Food(x, y));
+            Foods.Add(new Food(x, y) { Dispose = (a) => { Foods.Remove((Food)a); OpenFoods.Remove((Food)a); } });
         }
-        private void RemoveDead()
+       /* private void RemoveDead()
         {
             Ants.RemoveAll(x => x.Hp <= 0);
             Pests.RemoveAll(x => x.Hp <= 0);
             Foods.RemoveAll(x => x.Hp <= 0);
             OpenFoods.RemoveAll(x => x.Hp <= 0);
-        }
+        }*/
         public void Process()
         {
             for (int i = 0; i < Ants.Count; i++)
@@ -61,7 +61,7 @@ namespace ClassLibraryAntHill
                 }
 
             }
-            RemoveDead();
+            
         }
     }
 }
