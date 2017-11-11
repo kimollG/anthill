@@ -3,3 +3,8 @@ C:\Users\bereg\Desktop\AntHill\ClassLibraryAntHill\bin\Debug\ClassLibraryAntHill
 C:\Users\bereg\Desktop\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.csprojResolveAssemblyReference.cache
 C:\Users\bereg\Desktop\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.dll
 C:\Users\bereg\Desktop\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.pdb
+C:\Users\Kirill\Documents\progs\anthill\AntHill\ClassLibraryAntHill\bin\Debug\ClassLibraryAntHill.dll
+C:\Users\Kirill\Documents\progs\anthill\AntHill\ClassLibraryAntHill\bin\Debug\ClassLibraryAntHill.pdb
+C:\Users\Kirill\Documents\progs\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.csprojResolveAssemblyReference.cache
+C:\Users\Kirill\Documents\progs\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.dll
+C:\Users\Kirill\Documents\progs\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.pdb
