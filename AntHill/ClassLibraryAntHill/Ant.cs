@@ -15,10 +15,10 @@ namespace ClassLibraryAntHill
         public double LastX { get { return lx; } }
         public double LastY { get { return ly; } }
         private string name;
-        public int Hp { get; }
+        public int Hp { get; protected set; }
         public List<Command> commands;
         public abstract int Thinking();
-
+        AntHill home;
         public void Move(double dx,double dy)
         {
             lx = x;
@@ -27,8 +27,9 @@ namespace ClassLibraryAntHill
             y = y + dy;
         }
         private static Random rnd= new Random();
-        public Ant(double x ,double y,string name)
+        public Ant(double x ,double y,string name,AntHill home)
         {
+            this.home = home;
             this.x = x;
             this.y = y;
             double a = Math.PI * rnd.NextDouble();
@@ -37,6 +38,6 @@ namespace ClassLibraryAntHill
             commands = new List<Command>();
             this.name = name;
         }
-        public abstract void BeAttak();
+        public abstract void BeAttaсked(int damage);
     }
 }

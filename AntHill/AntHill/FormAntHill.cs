@@ -57,7 +57,7 @@ namespace AntHill
                 double a = 180/ Math.PI*Math.Atan((field.Ants[i].LastY - field.Ants[i].Y) / (field.Ants[i].LastX - field.Ants[i].X));
                 g.TranslateTransform(Convert.ToSingle(field.Ants[i].X - 4), Convert.ToSingle(field.Ants[i].Y - 4));
                 g.RotateTransform(Convert.ToSingle(a));
-                if (((Field.AntBuilder)field.Ants[i]).Bring == false)
+                if (((WorkerAnt)field.Ants[i]).IsBringing == false)
                 {
                     g.FillEllipse(Brushes.Brown, 0, 0, 10, 6);
                 }
