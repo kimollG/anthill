@@ -38,7 +38,7 @@ namespace ClassLibraryAntHill
         {
             Nodes[index].Edges.Add(edge);
         }
-        public void NodesBuild ()
+        private void NodesBild ()
         {
             AddNode(new Node(new PointF(center.X , center.Y - radius / 2),TypeOfNodes.larvae, new List<Edge>(), radius / 3));
             AddNode(new Node(new PointF(center.X, center.Y ), TypeOfNodes.mother, new List<Edge>(), radius / 3));

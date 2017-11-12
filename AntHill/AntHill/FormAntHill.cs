@@ -52,16 +52,9 @@ namespace AntHill
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(Color.White);
-            field.AntHills.ForEach(x => x.Draw(ref g));
-            //g.DrawEllipse(new Pen(Color.Black, 4), 30, 30, 140, 140);
-            foreach (Ant ant in field.Ants)
-            {
-                ant.Draw(g);
-            }
-            foreach (IDrawable food in field.Foods)
-            {
-                food.Draw(g);
-            }
+            g.DrawEllipse(new Pen(Color.Black, 4), 30, 30, 140, 140);
+            field.Ants.ForEach(a => a.Draw(g));
+            field.Foods.ForEach(f => f.Draw(g));
             pictureBoxAntHill.Image = bitmap;
         }
     }
