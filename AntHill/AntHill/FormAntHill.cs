@@ -52,7 +52,8 @@ namespace AntHill
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(Color.White);
-            g.DrawEllipse(new Pen(Color.Black, 4), 30, 30, 140, 140);
+            field.AntHills.ForEach(x => x.Draw(ref g));
+            //g.DrawEllipse(new Pen(Color.Black, 4), 30, 30, 140, 140);
             foreach (Ant ant in field.Ants)
             {
                 ant.Draw(g);
