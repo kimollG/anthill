@@ -77,7 +77,7 @@ namespace ClassLibraryAntHill
                     else
                     {
                         double a = Math.Atan((OpenFoods[index].Y - Y) / (OpenFoods[index].X - X));
-                        double al = AntMath.GetAnkleBetwentwoVector(-OpenFoods[index].X + X, -OpenFoods[index].Y + Y, X - LastX, Y - LastY);
+                        double al = AntMath.GetAngleBetwenTwoVectors(-OpenFoods[index].X + X, -OpenFoods[index].Y + Y, X - LastX, Y - LastY);
                         if (Math.Abs(al) < Math.PI / 2)
                         {
                             Move(Math.Cos(a), Math.Sin(a));
@@ -101,7 +101,7 @@ namespace ClassLibraryAntHill
                 else
                 {
                     double a = Math.Atan((100 - Y) / (100 - X));
-                    double al = AntMath.GetAnkleBetwentwoVector(X - 100, Y - 100, X - LastX, Y - LastY);
+                    double al = AntMath.GetAngleBetwenTwoVectors(X - 100, Y - 100, X - LastX, Y - LastY);
                     if (Math.Abs(al) < Math.PI / 2)
                     {
                         Move(-Math.Cos(a), -Math.Sin(a));

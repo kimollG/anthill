@@ -18,3 +18,5 @@ C:\Users\Kirill\Documents\progs\anthill\AntHill\AntHill\bin\Debug\AntHill.exe
 C:\Users\Kirill\Documents\progs\anthill\AntHill\AntHill\bin\Debug\AntHill.pdb
 C:\Users\Kirill\Documents\progs\anthill\AntHill\AntHill\bin\Debug\ClassLibraryAntHill.dll
 C:\Users\Kirill\Documents\progs\anthill\AntHill\AntHill\bin\Debug\ClassLibraryAntHill.pdb
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\obj\Debug\AntHill.exe
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\obj\Debug\AntHill.pdb

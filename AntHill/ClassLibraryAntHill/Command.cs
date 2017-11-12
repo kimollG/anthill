@@ -25,11 +25,8 @@ namespace ClassLibraryAntHill
             Y = y;
             action = act;
         }
-        public Command(Action act)
-        {
-            X = -1;
-            Y = -1;
-            action = act;
+        public Command(Action act) : this (act, -1,-1)
+        {           
         }
     }
 }

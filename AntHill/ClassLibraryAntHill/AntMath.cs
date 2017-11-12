@@ -7,7 +7,7 @@ namespace ClassLibraryAntHill
 {
     public static class AntMath
     {
-        public static double GetAnkleBetwentwoVector(double x1,double y1,double x2,double y2)
+        public static double GetAngleBetwenTwoVectors(double x1,double y1,double x2,double y2)
         {
             double g = Math.Sqrt(x1 * x1 + y1 * y1) * Math.Sqrt(x2 * x2 + y2 * y2);
 
