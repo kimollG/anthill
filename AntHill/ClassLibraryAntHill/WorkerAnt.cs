@@ -141,19 +141,30 @@ namespace ClassLibraryAntHill
             double a = 180 / Math.PI * Math.Atan((this.LastY - this.Y) / (this.LastX - this.X));
             g.TranslateTransform(Convert.ToSingle(this.X - 4), Convert.ToSingle(this.Y - 4));
             g.RotateTransform(Convert.ToSingle(a));
-            if (((WorkerAnt)this).IsBringing == false)
+            bool b = this.LastX > this.X;
+            g.RotateTransform(90);
+            if(b)
+                g.RotateTransform(180);
+            var im = Image.FromFile("smallAnt.png");
+            var im2 = Image.FromFile("leaf.png");
+            g.DrawImage(im, new PointF(-im.Width*0.5f, -im.Height*0.5f));
+            if (b)
+                g.RotateTransform(-180);
+            g.RotateTransform(-90);
+            if (((WorkerAnt)this).IsBringing )
             {
-                g.FillEllipse(Brushes.Brown, 0, 0, 10, 6);
+                g.DrawImage(im2, new PointF(-im2.Width * 0.5f, -im2.Height * 0.5f));
             }
             else
             {
-                g.FillEllipse(Brushes.Green, 0, 0, 10, 6);
+                //g.FillEllipse(Brushes.Green, 0, 0, 10, 6);
             }
             float x = 8;
             if (this.LastX > this.X)
                 x = -2;
             float y = 1.115f;
-            g.FillEllipse(Brushes.Black, x, y, 4, 4);
+            //if (((WorkerAnt)this).IsBringing)
+                //g.FillEllipse(Brushes.Black, x, y, 10, 10);
             g.RotateTransform(-Convert.ToSingle(a));
             g.TranslateTransform(-Convert.ToSingle(this.X - 4), -Convert.ToSingle(this.Y - 4));
         }
