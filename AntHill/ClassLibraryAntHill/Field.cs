@@ -2,22 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+
 namespace ClassLibraryAntHill
 {
 
     public class Field
-    {       
-        public List<AntHill> AntHills { get; private set; }
+    {        
         public List<Ant> Ants { get; private set; }
         public List<Ant> Pests { get; private set; }
         public List<Food> Foods { get; private set; }
         public List<Food> OpenFoods { get; private set; }
         public Field()
         {
-            MyBuilderAntHill builder = new MyBuilderAntHill(new PointF(85, 85), 55);
-            builder.NodesBuild();
-            AntHills = new List<AntHill>() { builder.CreateAntHill() }; 
             OpenFoods = new List<Food>();
             Foods = new List<Food>();
             Pests = new List<Ant>();
