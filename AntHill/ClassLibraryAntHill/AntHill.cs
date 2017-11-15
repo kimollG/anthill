@@ -54,11 +54,12 @@ namespace ClassLibraryAntHill
         public int Food { get; private set; }
         List<Ant> LeaveAnts;
         public List<Node> Nodes { get; private set; }
-
+        public List<Food> OpenFoods { get; private set; }
         public AntHill(PointF center, List<Node> N,float rad)
         {
             Food = 100;
             LeaveAnts = new List<Ant>();
+            OpenFoods = new List<Food>();
             Nodes = N;
             radius = rad;
             this.center = center;
@@ -167,7 +168,7 @@ namespace ClassLibraryAntHill
                 }
             }
         }
-        public void Draw(ref Graphics g)
+        public void Draw(Graphics g)
         {
             g.FillEllipse(Brushes.Black, center.X - radius, center.Y - radius, 2 * radius, 2 * radius);
             for(int i=0;i<Nodes.Count;i++)

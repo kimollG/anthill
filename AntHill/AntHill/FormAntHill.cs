@@ -17,8 +17,14 @@ namespace AntHill
             timer1.Stop();
             bitmap = new Bitmap(pictureBoxAntHill.Width, pictureBoxAntHill.Height);
             g = Graphics.FromImage(bitmap);
+            builder = new MyBuilderAntHill(new PointF(100, 100), 100);
+            List<ClassLibraryAntHill.AntHill> anthills = new List<ClassLibraryAntHill.AntHill>();
+            anthills.Add(builder.CreateAntHill());
+            field = new Field(anthills);
         }
-        Field field = new Field();
+        BuilderAntHill builder;
+        List<ClassLibraryAntHill.AntHill> anthills = new List<ClassLibraryAntHill.AntHill>();
+        Field field;
         int i = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -35,6 +41,7 @@ namespace AntHill
         }
         Bitmap bitmap;
         Graphics g;
+        int indexname=0;
         private void buttonEnter_Click(object sender, EventArgs e)
         {
             int n = 0;
@@ -44,7 +51,8 @@ namespace AntHill
             {
                 double x = rnd.Next(30, 170);
                 double y = rnd.Next(30, 170);
-                field.BornAnt(x, y, "Ant" + i.ToString());
+                field.BornAnt(x, y, "Ant" + indexname.ToString());
+                indexname++;
             }
             timer1.Start();
         }
@@ -53,6 +61,7 @@ namespace AntHill
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(Color.White);
             g.DrawEllipse(new Pen(Color.Black, 4), 30, 30, 140, 140);
+            field.AntHills.ForEach(ah => ah.Draw(g));
             field.Ants.ForEach(a => a.Draw(g));
             field.Foods.ForEach(f => f.Draw(g));
             pictureBoxAntHill.Image = bitmap;

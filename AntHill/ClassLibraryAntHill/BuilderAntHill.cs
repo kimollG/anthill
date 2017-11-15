@@ -14,7 +14,7 @@ namespace ClassLibraryAntHill
         {
             this.center = center;
             this.radius = radius;
-            List<Node> Nodes = new List<Node>();
+            Nodes = new List<Node>();
         }
         public abstract AntHill CreateAntHill();
         public abstract void AddNode(Node node);
@@ -24,10 +24,10 @@ namespace ClassLibraryAntHill
     {
         public MyBuilderAntHill(PointF center, float radius):base(center,radius)
         {
-
         }
         public override AntHill CreateAntHill()
-        { 
+        {
+            NodesBuild();
             return new AntHill(center, Nodes, radius);
         }
         public override void AddNode(Node node)
@@ -38,7 +38,7 @@ namespace ClassLibraryAntHill
         {
             Nodes[index].Edges.Add(edge);
         }
-        private void NodesBild ()
+        private void NodesBuild ()
         {
             AddNode(new Node(new PointF(center.X , center.Y - radius / 2),TypeOfNodes.larvae, new List<Edge>(), radius / 3));
             AddNode(new Node(new PointF(center.X, center.Y ), TypeOfNodes.mother, new List<Edge>(), radius / 3));

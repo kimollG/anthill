@@ -28,14 +28,14 @@ namespace ClassLibraryAntHill
         {
             OpenFoods = food;
         }
-        public override int Thinking()
+        public override void Thinking()
         {
             int index = MinDictance();
             if (commands[0].action == Action.findfood)
             {
                 if (index != -1)
                 {
-                    commands.RemoveAll(x => true);
+                    commands.Clear();
                     commands.Add(new Command(Action.gotoFood, OpenFoods[index].X, OpenFoods[index].Y));
                 }
                 else
@@ -44,14 +44,11 @@ namespace ClassLibraryAntHill
                     {
                         double a = Math.Atan((LastY - Y) / (LastX - X));
                         Move(Math.Cos(a) * speed, Math.Sin(a) * speed);
-                        return -2;
                     }
                     else
                     {
                         commands.Clear();
                         commands.Add(new Command(Action.gotoAntHill, 100, 100));
-                        double a = Math.Atan((100 - Y) / (100 - X));
-                        Move(Math.Cos(a), Math.Sin(a));
                     }
 
                 }
@@ -71,22 +68,18 @@ namespace ClassLibraryAntHill
                     {
                         commands.Clear();
                         commands.Add(new Command(Action.gotoAntHill, 100, 100));
-                        double a = Math.Atan((OpenFoods[index].Y - Y) / (OpenFoods[index].X - X));
-                        Move(Math.Cos(a), Math.Sin(a));
                         IsBringing = true;
                         OpenFoods[index].ChangeFood();
                     }
                     else
                     {
                         double a = Math.Atan((OpenFoods[index].Y - Y) / (OpenFoods[index].X - X));
-                        double al = AntMath.GetAnkleBetwentwoVector(-OpenFoods[index].X + X, -OpenFoods[index].Y + Y, X - LastX, Y - LastY);
-                        if (Math.Abs(al) < Math.PI / 2)
+                        if ( X>= OpenFoods[index].X)
+                            Move(-Math.Cos(a) * speed, -Math.Sin(a) * speed);
+                        else
                         {
-                            Move(Math.Cos(a), Math.Sin(a));
-                            return -1;
+                            Move(Math.Cos(a) * speed, Math.Sin(a) * speed);
                         }
-
-                        Move(Math.Cos(a) * speed, Math.Sin(a) * speed);
 
                     }
                 }
@@ -97,29 +90,20 @@ namespace ClassLibraryAntHill
                 if (d < 5)
                 {
                     IsBringing = false;
-                    commands.RemoveAll(x => true);
+                    commands.Clear();
                     commands.Add(new Command(Action.findfood));
                 }
                 else
                 {
                     double a = Math.Atan((100 - Y) / (100 - X));
-                    double al = AntMath.GetAnkleBetwentwoVector(X - 100, Y - 100, X - LastX, Y - LastY);
-                    if (Math.Abs(al) < Math.PI / 2)
-                    {
-                        Move(-Math.Cos(a), -Math.Sin(a));
-                        return -2;
-                    }
-
+                    if(X>=100 )
                     Move(-Math.Cos(a) * speed, -Math.Sin(a) * speed);
-
-                    return -2;
+                    else
+                    {
+                        Move(Math.Cos(a) * speed, Math.Sin(a) * speed);
+                    }
                 }
             }
-            if (!(X > 10 && X < 650 && Y > 10 && Y < 400))
-            {
-                bool ok = true;
-            }
-            return -1;
         }
         private int MinDictance()
         {

@@ -19,7 +19,7 @@ namespace ClassLibraryAntHill
         private string name;
         public int Hp { get; protected set; }
         public List<Command> commands;
-        public abstract int Thinking();
+        public abstract void Thinking();
         protected DisposeMethod disp;
         public DisposeMethod Dispose
         {
