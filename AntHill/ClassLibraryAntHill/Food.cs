@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 namespace ClassLibraryAntHill
 {
-    public class Food:IDrawable,IDispose
+    public class Food:IDrawable,IDispose,IPlace
     {
         private int hp;
         public int Hp { get { return hp; } }
@@ -35,6 +35,14 @@ namespace ClassLibraryAntHill
         {
             if ((hp -= 10) <= 0)
                 disp(this);
+        }
+        public bool isInside(double x, double y)
+        {
+            if (x < X + 7 && x > X - 7 && y < Y + 7 && y > Y - 7)
+            {
+                return true;
+            }
+            return false;
         }
         public void Draw(Graphics g)
         {

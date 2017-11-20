@@ -40,11 +40,11 @@ namespace ClassLibraryAntHill
         }
         private void NodesBuild ()
         {
-            AddNode(new Node(new PointF(center.X , center.Y - radius / 2),TypeOfNodes.larvae, new List<Edge>(), radius / 3));
+            AddNode(new Node(new PointF(center.X , center.Y - radius / 2),TypeOfNodes.larvae, new List<Edge>(), radius / 4));
             AddNode(new Node(new PointF(center.X, center.Y ), TypeOfNodes.mother, new List<Edge>(), radius / 3));
-            AddNode(new Node(new PointF(center.X , center.Y + radius / 2), TypeOfNodes.storage, new List<Edge>(), radius / 3));
-            AddNode(new Node(new PointF(center.X - 2* radius / 3, center.Y ), TypeOfNodes.exit, new List<Edge>(), radius / 2));
-            AddNode(new Node(new PointF(center.X + 2 * radius / 3, center.Y ), TypeOfNodes.exit, new List<Edge>(), radius / 2));
+            AddNode(new Node(new PointF(center.X , center.Y + 2*radius / 3), TypeOfNodes.storage, new List<Edge>(), radius / 5));
+            AddNode(new Node(new PointF(center.X - 2* radius / 3, center.Y ), TypeOfNodes.exit, new List<Edge>(), radius / 3));
+            AddNode(new Node(new PointF(center.X + 2 * radius / 3, center.Y ), TypeOfNodes.exit, new List<Edge>(), radius / 3));
             AddEdgeToNode(0, new Edge(Nodes[1], 10));
             AddEdgeToNode(1, new Edge(Nodes[0], 10));
             AddEdgeToNode(2, new Edge(Nodes[1], 10));

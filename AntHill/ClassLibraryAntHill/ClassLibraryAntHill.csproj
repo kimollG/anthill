@@ -47,9 +47,13 @@
     <Compile Include="BuilderAntHill.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="FindingStrategy.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="IDispose.cs" />
     <Compile Include="IDrawable.cs" />
+    <Compile Include="IPlace.cs" />
+    <Compile Include="IStrategy.cs" />
+    <Compile Include="MovingStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkerAnt.cs" />
   </ItemGroup>

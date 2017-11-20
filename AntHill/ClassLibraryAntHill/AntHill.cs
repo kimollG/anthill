@@ -15,7 +15,7 @@ namespace ClassLibraryAntHill
         larvae,//личинки
         exit,
     }
-    public class Node
+    public class Node:IPlace
     {
         public PointF point { get; private set; }
         public List<Ant> Ants;
@@ -32,8 +32,16 @@ namespace ClassLibraryAntHill
             visit = false;
             this.r = r;
         }
+        public bool isInside(double x,double y)
+        {
+            if(x<point.X+r && x > point.X-r && y < point.Y + r && y > point.Y - r)
+            {
+                return true;
+            }
+            return false;
+        }
     }
-    public class Edge
+    public class Edge:IPlace
     {
         public Node followignode{ get; private set; }
         public float r { get; private set; }
@@ -46,11 +54,19 @@ namespace ClassLibraryAntHill
             this.followignode = followignode;
             visit = false;
         }
+        public bool isInside(double x, double y)
+        {
+            if (x > followignode.point.X  && y > followignode.point.Y  )
+            {
+                return true;
+            }
+            return false;
+        }
     }
-    public class AntHill
+    public class AntHill:IPlace
     {
-        PointF center;
-        float radius;
+        public PointF center { get; private set; }
+        public float radius { get; private set; }
         public int Food { get; private set; }
         List<Ant> LeaveAnts;
         public List<Node> Nodes { get; private set; }
@@ -167,6 +183,14 @@ namespace ClassLibraryAntHill
                     }
                 }
             }
+        }
+        public bool isInside(double x, double y)
+        {
+            if (x < center.X + radius && x > center.X - radius && y < center.Y + radius && y > center.Y - radius)
+            {
+                return true;
+            }
+            return false;
         }
         public void Draw(Graphics g)
         {

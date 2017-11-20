@@ -8,15 +8,16 @@ namespace ClassLibraryAntHill
 {
     public class WorkerAnt : Ant
     {
-        private const int speed = 3;
+
         private List<Food> OpenFoods;
        
-        public bool IsBringing { get; private set; }
+        internal bool IsBringing { get; set; }
         public WorkerAnt(double x, double y, string name,AntHill home) : base(x, y, name,home)
         {
             
             OpenFoods = new List<Food>();
             IsBringing = false;
+            Speed = 3;
         }
        
         public override void BeAttaсked(int damage)
@@ -30,7 +31,15 @@ namespace ClassLibraryAntHill
         }
         public override void Thinking()
         {
-            int index = MinDictance();
+            if(strategy==null)
+            {
+                SetStrategy(new FindingStrategy(this, new Field()));
+            }
+            else
+            {
+                strategy.Execute();
+            }
+            /*int index = MinDictance();
             if (commands[0].action == Action.findfood)
             {
                 if (index != -1)
@@ -43,7 +52,7 @@ namespace ClassLibraryAntHill
                     if (X > 10 && X < 650 && Y > 10 && Y < 400)
                     {
                         double a = Math.Atan((LastY - Y) / (LastX - X));
-                        Move(Math.Cos(a) * speed, Math.Sin(a) * speed);
+                        Move(Math.Cos(a) * Speed, Math.Sin(a) * Speed);
                     }
                     else
                     {
@@ -75,10 +84,10 @@ namespace ClassLibraryAntHill
                     {
                         double a = Math.Atan((OpenFoods[index].Y - Y) / (OpenFoods[index].X - X));
                         if ( X>= OpenFoods[index].X)
-                            Move(-Math.Cos(a) * speed, -Math.Sin(a) * speed);
+                            Move(-Math.Cos(a) * Speed, -Math.Sin(a) * Speed);
                         else
                         {
-                            Move(Math.Cos(a) * speed, Math.Sin(a) * speed);
+                            Move(Math.Cos(a) * Speed, Math.Sin(a) * Speed);
                         }
 
                     }
@@ -97,13 +106,13 @@ namespace ClassLibraryAntHill
                 {
                     double a = Math.Atan((100 - Y) / (100 - X));
                     if(X>=100 )
-                    Move(-Math.Cos(a) * speed, -Math.Sin(a) * speed);
+                    Move(-Math.Cos(a) * Speed, -Math.Sin(a) * Speed);
                     else
                     {
-                        Move(Math.Cos(a) * speed, Math.Sin(a) * speed);
+                        Move(Math.Cos(a) * Speed, Math.Sin(a) * Speed);
                     }
                 }
-            }
+            }*/
         }
         private int MinDictance()
         {
