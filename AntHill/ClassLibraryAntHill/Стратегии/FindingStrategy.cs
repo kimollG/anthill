@@ -23,7 +23,8 @@ namespace ClassLibraryAntHill
             }
             else
             {
-                ant.SetStrategy(new MovingStrategy(ant.Home.center.X, ant.Home.center.Y, this.ant,place));
+                //ant.SetStrategy(new MovingStrategy(ant.Home.center.X, ant.Home.center.Y, this.ant,place));
+                ant.SetStrategy(new WalkatHomeStrategy(ant,TypeOfNodes.storage,ant.Home));
             }
             int index = MinDictance();
             if(index!=-1)

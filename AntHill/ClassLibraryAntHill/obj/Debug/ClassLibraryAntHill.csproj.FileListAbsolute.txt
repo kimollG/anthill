@@ -15,6 +15,6 @@ C:\Users\bereg\Desktop\anthill-4432e6c6e6e5fc1f8828b72fab7941b36712c8c8\anthill-
 C:\Users\bereg\Desktop\anthill-4432e6c6e6e5fc1f8828b72fab7941b36712c8c8\anthill-4432e6c6e6e5fc1f8828b72fab7941b36712c8c8\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.pdb
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\bin\Debug\ClassLibraryAntHill.dll
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\bin\Debug\ClassLibraryAntHill.pdb
-C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.csprojResolveAssemblyReference.cache
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.dll
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.pdb
+C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.csprojResolveAssemblyReference.cache

@@ -80,6 +80,87 @@ namespace ClassLibraryAntHill
             radius = rad;
             this.center = center;
         }
+        public Node NearestNode(double x, double y, TypeOfNodes type)
+        {
+            int index = -1;
+            double d = 1000000;
+            for (int i = 0; i < Nodes.Count;i++)
+            {
+                if(type==Nodes[i].type)
+                {
+                    double d1 = Math.Sqrt((Nodes[i].point.X - x) * (Nodes[i].point.X - x) + (Nodes[i].point.Y - y) * (Nodes[i].point.Y - y));
+                    if(d1<d)
+                    {
+                        d = d1;
+                        index = i;
+                    }
+                }
+            }
+            return Nodes[index];
+        }
+        public Node FindingNode(double x, double y,Ant ant)
+        {
+            if (isInside(x, y))
+            {
+                int index = -1;
+                double d = 1000000;
+                for (int i = 0; i < Nodes.Count; i++)
+                {
+
+                    double d1 = Math.Sqrt((Nodes[i].point.X - x) * (Nodes[i].point.X - x) + (Nodes[i].point.Y - y) * (Nodes[i].point.Y - y));
+                    if (d1 < d)
+                    {
+                        d = d1;
+                        index = i;
+                    }
+
+                }
+                if (Nodes[index].r < d)
+                {
+                    double a = Math.Atan((ant.LastY - ant.Y) / (ant.LastX - ant.X));
+                    ant.Move(Nodes[index].point.X-ant.X, Nodes[index].point.Y-ant.Y);
+                    ant.Move(Math.Cos(a) , Math.Sin(a) );
+                }
+                return Nodes[index];
+            }
+            return null;
+        }
+        List<Node> list = new List<Node>();
+        List<Node> list2 = new List<Node>();
+        double dist;
+        public List<Node> Deicstra(Node firstnode,Node finishnode )
+        {
+            list = new List<Node>();
+            list2 = new List<Node>();
+            Clear();
+            dist = 10000;
+            Deicstra(firstnode,finishnode,0);
+            return list;
+        }
+        private void Deicstra(Node firstnode, Node finishnode,double d)
+        {
+            list2.Add(firstnode);
+            firstnode.visit = true;
+            if (firstnode.point.Equals(finishnode.point))
+            {
+                if(d<dist)
+                {
+                    dist = d;
+                    list =new List<Node>(list2);
+                }
+            }
+            for(int i=0;i<firstnode.Edges.Count;i++)
+            {
+                if(firstnode.Edges[i].followignode.visit==false)
+                {
+                    double x = firstnode.Edges[i].followignode.point.X;
+                    double y = firstnode.Edges[i].followignode.point.Y;
+                    double dd= Math.Sqrt((firstnode.point.X - x) * (firstnode.point.X - x) + (firstnode.point.Y - y) * (firstnode.point.Y - y));
+                    Deicstra(firstnode.Edges[i].followignode, finishnode, d + dd);
+                    list2.RemoveAt(list2.Count - 1);
+                }
+            }
+        }
         public void Process()
         {
             for(int i=0;i<Nodes.Count;i++)
@@ -100,21 +181,21 @@ namespace ClassLibraryAntHill
                         {
                             double x0 = Nodes[i].Edges[f].followignode.point.X;
                             double y0 = Nodes[i].Edges[f].followignode.point.X;
-                            double x10 = Nodes[i].Ants[j].commands[0].X;
-                            double y10 = Nodes[i].Ants[j].commands[0].Y;
-                            double d0 = Math.Sqrt((x0 - x10) * (x0 - x10) + (y0 - y10) * (y0 - y10));
-                            if(min>d0)
+                           // double x10 = Nodes[i].Ants[j].commands[0].X;
+                            //double y10 = Nodes[i].Ants[j].commands[0].Y;
+                           // double d0 = Math.Sqrt((x0 - x10) * (x0 - x10) + (y0 - y10) * (y0 - y10));
+                           /* if(min>d0)
                             {
                                 min = d0;
                                 index = f;
-                            }
+                            }*/
                            
                         }
-                        if (Nodes[i].type == TypeOfNodes.exit && (Math.Abs(Nodes[i].Ants[j].commands[0].X - center.X) > radius || Math.Abs(Nodes[i].Ants[j].commands[0].Y - center.Y) > radius))
+                       // if (Nodes[i].type == TypeOfNodes.exit && (Math.Abs(Nodes[i].Ants[j].commands[0].X - center.X) > radius || Math.Abs(Nodes[i].Ants[j].commands[0].Y - center.Y) > radius))
                         {
                             LeaveAnts.Add(Nodes[i].Ants[j]);
                         }
-                        else
+                        //else
                         {
                             Nodes[i].Edges[index].Ants.Add(Nodes[i].Ants[j]);
                         }
@@ -151,6 +232,7 @@ namespace ClassLibraryAntHill
         {
             for (int i = 0; i < Nodes.Count; i++)
             {
+                Nodes[i].visit = false;
                 for (int j = 0; j < Nodes[i].Edges.Count; j++)
                 {
                     Nodes[i].Edges[j].visit = false;

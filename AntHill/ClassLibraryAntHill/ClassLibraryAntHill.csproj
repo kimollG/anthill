@@ -46,15 +46,17 @@
     <Compile Include="AntMath.cs" />
     <Compile Include="BuilderAntHill.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="Стратегии\DoStrategy.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="FindingStrategy.cs" />
+    <Compile Include="Стратегии\FindingStrategy.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="IDispose.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="IPlace.cs" />
-    <Compile Include="IStrategy.cs" />
-    <Compile Include="MovingStrategy.cs" />
+    <Compile Include="Стратегии\IStrategy.cs" />
+    <Compile Include="Стратегии\MovingStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Стратегии\WalkatHomeStrategy.cs" />
     <Compile Include="WorkerAnt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

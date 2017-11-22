@@ -33,7 +33,7 @@ namespace ClassLibraryAntHill
         {
             if(strategy==null)
             {
-                SetStrategy(new FindingStrategy(this, new Field()));
+                SetStrategy(new WalkatHomeStrategy(this, TypeOfNodes.exit,new Field()));
             }
             else
             {

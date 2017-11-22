@@ -12,6 +12,7 @@ namespace ClassLibraryAntHill
         internal  IStrategy strategy;
         private double x;
         private double y;
+        public IPlace Place { get; private set; }
         public double X { get { return x; } }
         public double Y { get { return y; } }
         private double lx, ly;
@@ -19,7 +20,7 @@ namespace ClassLibraryAntHill
         public double LastY { get { return ly; } }
         private string name;
         public int Hp { get; protected set; }
-        public List<Command> commands;
+        //public List<Command> commands;
         public int Speed { get; set; }
         public abstract void Thinking();
         protected DisposeMethod disp;
@@ -47,6 +48,10 @@ namespace ClassLibraryAntHill
             x = x + dx;
             y = y + dy;
         }
+        public void ChangePlace(IPlace p)
+        {
+            Place = p;
+        }
         private static Random rnd= new Random();
         public Ant(double x ,double y,string name,AntHill home)
         {
@@ -56,8 +61,9 @@ namespace ClassLibraryAntHill
             double a = Math.PI * rnd.NextDouble();
             Move(Math.Cos(a), Math.Sin(a));
             Hp = 100;
-            commands = new List<Command>();
+            //commands = new List<Command>();
             this.name = name;
+            Place = home;
         }
         public abstract void BeAttaсked(int damage);
     }
