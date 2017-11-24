@@ -73,12 +73,16 @@ namespace ClassLibraryAntHill
         public List<Food> OpenFoods { get; private set; }
         public AntHill(PointF center, List<Node> N,float rad)
         {
-            Food = 100;
+            Food = 1000;
             LeaveAnts = new List<Ant>();
             OpenFoods = new List<Food>();
             Nodes = N;
             radius = rad;
             this.center = center;
+        }
+        public void GiveFood()
+        {
+            Food += 100;
         }
         public Node NearestNode(double x, double y, TypeOfNodes type)
         {
@@ -161,7 +165,15 @@ namespace ClassLibraryAntHill
                 }
             }
         }
-        public void Process()
+        public void Process(int count)
+        {
+            Food -= count;
+            if (Food < 0)
+            {
+                Food = 0;
+            }
+        }
+       /* public void Process()
         {
             for(int i=0;i<Nodes.Count;i++)
             {
@@ -184,11 +196,11 @@ namespace ClassLibraryAntHill
                            // double x10 = Nodes[i].Ants[j].commands[0].X;
                             //double y10 = Nodes[i].Ants[j].commands[0].Y;
                            // double d0 = Math.Sqrt((x0 - x10) * (x0 - x10) + (y0 - y10) * (y0 - y10));
-                           /* if(min>d0)
+                           if(min>d0)
                             {
                                 min = d0;
                                 index = f;
-                            }*/
+                            }
                            
                         }
                        // if (Nodes[i].type == TypeOfNodes.exit && (Math.Abs(Nodes[i].Ants[j].commands[0].X - center.X) > radius || Math.Abs(Nodes[i].Ants[j].commands[0].Y - center.Y) > radius))
@@ -227,7 +239,7 @@ namespace ClassLibraryAntHill
                 }
             }
            
-        }
+        }*/
         public void Clear()
         {
             for (int i = 0; i < Nodes.Count; i++)
@@ -277,11 +289,57 @@ namespace ClassLibraryAntHill
         public void Draw(Graphics g)
         {
             g.FillEllipse(Brushes.Black, center.X - radius, center.Y - radius, 2 * radius, 2 * radius);
-            for(int i=0;i<Nodes.Count;i++)
+            int count = 0;
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                if(Nodes[i].type==TypeOfNodes.storage)
+                {
+                    count++;
+                }
+            }
+            for (int i = 0; i < Nodes.Count; i++)
             {
                 PointF point = Nodes[i].point;
                 float r = Nodes[i].r;
                 g.FillEllipse(Brushes.White, point.X - r, point.Y - r, 2 * r, 2 * r);
+                if(Nodes[i].type == TypeOfNodes.storage)
+                {
+                    int d = 5;
+                    int[] arr = {4 , 8, 12 , 16, 20, 16, 12, 8, 4 };
+                    int summ = 0;
+                    int kk = 0;
+                    for (int j=0;j< Food / count; j += 100)
+                    {
+                        if (j / 100 - summ == arr[kk])
+                        {
+                            summ += arr[kk];
+                            kk++;
+                            if (kk > 9)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    int cc = 1;
+                    summ = 0;
+                    for(int j=0;j<Food/count;j+=100)
+                    {
+                        if(j/100- summ == arr[cc-1])
+                        {
+                            summ += arr[cc - 1];
+                            cc++;
+                            if(cc>9)
+                            {
+                                break;
+                            }
+                        }
+                        float step = cc*r /(kk+1);
+                        float rel = j/100 - summ;
+                        float dd= rel*step / arr[cc - 1];
+                        g.FillEllipse(Brushes.Green, point.X -step+dd, point.Y + r-step,  d, d);
+                        g.DrawEllipse(Pens.Black, point.X - step + dd, point.Y + r - step, d, d);
+                    }
+                }
                 for (int j = 0; j < Nodes[i].Edges.Count; j++)
                 {
                     float rad = Nodes[i].Edges[j].r;

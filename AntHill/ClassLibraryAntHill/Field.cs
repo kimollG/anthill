@@ -43,6 +43,7 @@ namespace ClassLibraryAntHill
         }
         public void Process()
         {
+            AntHills[0].Process(Ants.Count/10+ 1);
             for (int i = 0; i < Ants.Count; i++)
             {
                 /*if (Ants[i].commands.Count == 0)
@@ -64,6 +65,13 @@ namespace ClassLibraryAntHill
                             }
                         }
                     }
+            }
+            if(AntHills[0].Food==0)
+            {
+                Random rnd = new Random();
+                int index = rnd.Next(0, Ants.Count*3);
+                if(index<Ants.Count)
+                Ants.RemoveAt(index);
             }
 
         }

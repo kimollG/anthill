@@ -36,7 +36,11 @@ namespace ClassLibraryAntHill
                 {
                     //ant.SetStrategy(new FindingStrategy(this.ant, new Field()));
                     ant.SetStrategy(new WalkatHomeStrategy(ant, TypeOfNodes.exit,new Field()));
-                    ((WorkerAnt)ant).IsBringing = false;
+                    if (((WorkerAnt)ant).IsBringing)
+                    {
+                        ((WorkerAnt)ant).IsBringing = false;
+                        ant.Home.GiveFood();
+                    }
                 }
             }
         }
