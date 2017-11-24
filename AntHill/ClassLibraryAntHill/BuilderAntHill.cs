@@ -43,13 +43,13 @@ namespace ClassLibraryAntHill
             AddNode(new Node(new PointF(center.X , center.Y - radius / 2),TypeOfNodes.larvae, new List<Edge>(), radius / 4));
             AddNode(new Node(new PointF(center.X, center.Y ), TypeOfNodes.mother, new List<Edge>(), radius / 3));
             AddNode(new Node(new PointF(center.X , center.Y + 2*radius / 3), TypeOfNodes.storage, new List<Edge>(), radius / 5));
-            AddNode(new Node(new PointF(center.X - 2* radius / 3, center.Y ), TypeOfNodes.exit, new List<Edge>(), radius / 3));
-            AddNode(new Node(new PointF(center.X + 2 * radius / 3, center.Y ), TypeOfNodes.exit, new List<Edge>(), radius / 3));
+            AddNode(new Node(new PointF(center.X - 2* radius / 3, center.Y ), TypeOfNodes.militaryroom, new List<Edge>(), radius / 3));
+            AddNode(new Node(new PointF(center.X + 6*radius/7, center.Y ), TypeOfNodes.exit, new List<Edge>(), radius / 4));
             AddEdgeToNode(0, new Edge(Nodes[1], 10));
             AddEdgeToNode(1, new Edge(Nodes[0], 10));
-            AddEdgeToNode(2, new Edge(Nodes[1], 10));
+            AddEdgeToNode(2, new Edge(Nodes[1], 25));
             AddEdgeToNode(3, new Edge(Nodes[1], 10));
-            AddEdgeToNode(4, new Edge(Nodes[1], 10));
+            AddEdgeToNode(4, new Edge(Nodes[1], 20));
             AddEdgeToNode(1, new Edge(Nodes[2], 10));
             AddEdgeToNode(1, new Edge(Nodes[3], 10));
             AddEdgeToNode(1, new Edge(Nodes[4], 10));

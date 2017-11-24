@@ -102,6 +102,31 @@ namespace ClassLibraryAntHill
             }
             return Nodes[index];
         }
+        public void CorrectLocation(Ant ant)
+        {
+            if (isInside(ant.X, ant.Y))
+            {
+                int index = -1;
+                double d = 1000000;
+                for (int i = 0; i < Nodes.Count; i++)
+                {
+
+                    double d1 = Math.Sqrt((Nodes[i].point.X - ant.X) * (Nodes[i].point.X - ant.X) + (Nodes[i].point.Y - ant.Y) * (Nodes[i].point.Y - ant.Y));
+                    if (d1 < d)
+                    {
+                        d = d1;
+                        index = i;
+                    }
+
+                }
+                if (Nodes[index].r < d)
+                {
+                    double a = Math.Atan((ant.LastY - ant.Y) / (ant.LastX - ant.X));
+                    ant.Move(Nodes[index].point.X - ant.X, Nodes[index].point.Y - ant.Y);
+                    ant.Move(Math.Cos(a), Math.Sin(a));
+                }
+            }
+        }
         public Node FindingNode(double x, double y,Ant ant)
         {
             if (isInside(x, y))
@@ -119,13 +144,10 @@ namespace ClassLibraryAntHill
                     }
 
                 }
-                if (Nodes[index].r < d)
-                {
-                    double a = Math.Atan((ant.LastY - ant.Y) / (ant.LastX - ant.X));
-                    ant.Move(Nodes[index].point.X-ant.X, Nodes[index].point.Y-ant.Y);
-                    ant.Move(Math.Cos(a) , Math.Sin(a) );
-                }
-                return Nodes[index];
+                if (index != -1)
+                    return Nodes[index];
+                else
+                    return null;
             }
             return null;
         }
@@ -173,73 +195,7 @@ namespace ClassLibraryAntHill
                 Food = 0;
             }
         }
-       /* public void Process()
-        {
-            for(int i=0;i<Nodes.Count;i++)
-            {
-                for (int j = 0; j < Nodes[i].Ants.Count; j++)
-                {
-                    Nodes[i].Ants[j].Thinking();
-                    double x = Nodes[i].point.X;
-                    double y = Nodes[i].point.Y;
-                    double x1 = Nodes[i].Ants[j].X;
-                    double y1 = Nodes[i].Ants[j].Y;
-                    double d = Math.Sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
-                    if (d>15)
-                    {
-                        int index = 0;
-                        double min = 1000000;
-                        for (int f = 0; f < Nodes[i].Edges.Count; f++)
-                        {
-                            double x0 = Nodes[i].Edges[f].followignode.point.X;
-                            double y0 = Nodes[i].Edges[f].followignode.point.X;
-                           // double x10 = Nodes[i].Ants[j].commands[0].X;
-                            //double y10 = Nodes[i].Ants[j].commands[0].Y;
-                           // double d0 = Math.Sqrt((x0 - x10) * (x0 - x10) + (y0 - y10) * (y0 - y10));
-                           if(min>d0)
-                            {
-                                min = d0;
-                                index = f;
-                            }
-                           
-                        }
-                       // if (Nodes[i].type == TypeOfNodes.exit && (Math.Abs(Nodes[i].Ants[j].commands[0].X - center.X) > radius || Math.Abs(Nodes[i].Ants[j].commands[0].Y - center.Y) > radius))
-                        {
-                            LeaveAnts.Add(Nodes[i].Ants[j]);
-                        }
-                        //else
-                        {
-                            Nodes[i].Edges[index].Ants.Add(Nodes[i].Ants[j]);
-                        }
-                        Nodes[i].Ants.RemoveAt(j);
-                        j--;
-                    }
-                }
-                for (int j = 0; j < Nodes[i].Edges.Count; j++)
-                {
-                    if (Nodes[i].Edges[i].visit == false)
-                    {
-                        for (int f = 0; f < Nodes[i].Edges[j].Ants.Count; f++)
-                        {
-                            Nodes[i].Edges[j].Ants[f].Thinking();
-                            double x = Nodes[i].Edges[j].Ants[f].X;
-                            double y = Nodes[i].Edges[j].Ants[f].Y;
-                            double x1 = Nodes[i].Edges[j].followignode.point.X;
-                            double y1 = Nodes[i].Edges[j].followignode.point.Y;
-                            double d = Math.Sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
-                            if (d<3)
-                            {
-                                Nodes[i].Edges[j].followignode.Ants.Add(Nodes[i].Edges[j].Ants[f]);
-                                Nodes[i].Edges[j].Ants.RemoveAt(f);
-                                f--;
-                            }
-                        }
-                        Nodes[i].Edges[j].visit = true;
-                    }
-                }
-            }
-           
-        }*/
+       
         public void Clear()
         {
             for (int i = 0; i < Nodes.Count; i++)
@@ -289,6 +245,7 @@ namespace ClassLibraryAntHill
         public void Draw(Graphics g)
         {
             g.FillEllipse(Brushes.Black, center.X - radius, center.Y - radius, 2 * radius, 2 * radius);
+            bool ok = true;
             int count = 0;
             for (int i = 0; i < Nodes.Count; i++)
             {
@@ -308,13 +265,13 @@ namespace ClassLibraryAntHill
                     int[] arr = {4 , 8, 12 , 16, 20, 16, 12, 8, 4 };
                     int summ = 0;
                     int kk = 0;
-                    for (int j=0;j< Food / count; j += 100)
+                    for (int j=0;j< Food / count- (ok==true ?0:1); j += 100)
                     {
                         if (j / 100 - summ == arr[kk])
                         {
                             summ += arr[kk];
                             kk++;
-                            if (kk > 9)
+                            if (kk > 8)
                             {
                                 break;
                             }
@@ -322,13 +279,13 @@ namespace ClassLibraryAntHill
                     }
                     int cc = 1;
                     summ = 0;
-                    for(int j=0;j<Food/count;j+=100)
+                    for(int j=0;j<Food/count-(ok == true ? 0 : 1); j+=100)
                     {
                         if(j/100- summ == arr[cc-1])
                         {
                             summ += arr[cc - 1];
                             cc++;
-                            if(cc>9)
+                            if(cc>8)
                             {
                                 break;
                             }
@@ -339,6 +296,7 @@ namespace ClassLibraryAntHill
                         g.FillEllipse(Brushes.Green, point.X -step+dd, point.Y + r-step,  d, d);
                         g.DrawEllipse(Pens.Black, point.X - step + dd, point.Y + r - step, d, d);
                     }
+                    ok = false;
                 }
                 for (int j = 0; j < Nodes[i].Edges.Count; j++)
                 {

@@ -5,13 +5,13 @@ using System.Text;
 
 namespace ClassLibraryAntHill
 {
-    class MovingStrategy : IStrategy
+    class MovingCommand : ICommand
     {
         public double X { get; private set; }
         public double Y { get; private set; }
         public IPlace place { get; set; }
         private Ant ant;
-        public MovingStrategy(double x,double y, Ant ant, IPlace p)
+        public MovingCommand(double x,double y, Ant ant, IPlace p)
         {
             X = x;
             Y = y;
@@ -23,8 +23,8 @@ namespace ClassLibraryAntHill
             double d = Math.Sqrt((X - ant.X) * (X - ant.X) + (Y - ant.Y) * (Y - ant.Y));
             if (d < 3)
             {
-                if (!(ant.strategy is WalkatHomeStrategy))
-                    ant.SetStrategy(new DoStrategy(ant, place));
+                if (!(ant.strategy is WalkatHomeCommand))
+                    ant.SetStrategy(new DoCommand(ant, place));
             }
             else
             {

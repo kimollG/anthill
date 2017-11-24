@@ -5,17 +5,17 @@ using System.Text;
 
 namespace ClassLibraryAntHill
 {
-    class WalkatHomeStrategy : IStrategy
+    class WalkatHomeCommand : ICommand
     {
         public IPlace place { get; set; }
         public TypeOfNodes type { get; set; }
         private Ant ant;
-        private List<IStrategy> actions;
-        public WalkatHomeStrategy( Ant ant, TypeOfNodes p,IPlace place)
+        private List<ICommand> actions;
+        public WalkatHomeCommand( Ant ant, TypeOfNodes p,IPlace place)
         {
             type = p;
             this.ant = ant;
-            actions = new List<IStrategy>();
+            actions = new List<ICommand>();
             this.place = place;
             CreateActions();
         }
@@ -26,24 +26,23 @@ namespace ClassLibraryAntHill
             {
                 first = ant.Home.NearestNode(ant.X, ant.Y, TypeOfNodes.exit);
             }
-            actions.Add(new MovingStrategy(first.point.X, first.point.Y, ant, first));
             Node finish = ant.Home.NearestNode(ant.X, ant.Y, type);
             List<Node> Nodes = ant.Home.Deicstra(first, finish);
             for (int i = 0; i < Nodes.Count; i++)
             {
-                actions.Add(new MovingStrategy(Nodes[i].point.X, Nodes[i].point.Y, ant, Nodes[i]));
+                actions.Add(new MovingCommand(Nodes[i].point.X, Nodes[i].point.Y, ant, Nodes[i]));
             }
             if(place is Field)
-              actions.Add(new FindingStrategy(ant, place));
+              actions.Add(new FindingCommand(ant, place));
             else
-            actions.Add(new DoStrategy(ant, finish));
+            actions.Add(new DoCommand(ant, finish));
         }
         public void Execute()
         {
             actions[0].Execute();
-            if (actions[0] is MovingStrategy)
+            if (actions[0] is MovingCommand)
             {
-                MovingStrategy s = (MovingStrategy)actions[0];
+                MovingCommand s = (MovingCommand)actions[0];
                 double d1 = Math.Sqrt((s.X - ant.X) * (s.X - ant.X) + (s.Y - ant.Y) * (s.Y - ant.Y));
                 if (d1 < 3)
                 {

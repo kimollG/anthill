@@ -5,11 +5,11 @@ using System.Text;
 
 namespace ClassLibraryAntHill
 {
-    class FindingStrategy:IStrategy
+    class FindingCommand:ICommand
     {
         public IPlace place { get; set; }
         private Ant ant;
-        public FindingStrategy(Ant ant,IPlace p)
+        public FindingCommand(Ant ant,IPlace p)
         {
             this.ant = ant;
             place = p;
@@ -24,12 +24,12 @@ namespace ClassLibraryAntHill
             else
             {
                 //ant.SetStrategy(new MovingStrategy(ant.Home.center.X, ant.Home.center.Y, this.ant,place));
-                ant.SetStrategy(new WalkatHomeStrategy(ant,TypeOfNodes.storage,ant.Home));
+                ant.SetStrategy(new WalkatHomeCommand(ant,TypeOfNodes.storage,ant.Home));
             }
             int index = MinDictance();
             if(index!=-1)
             {
-                ant.SetStrategy(new MovingStrategy(ant.Home.OpenFoods[index].X, ant.Home.OpenFoods[index].Y, this.ant, ant.Home.OpenFoods[index]));
+                ant.SetStrategy(new MovingCommand(ant.Home.OpenFoods[index].X, ant.Home.OpenFoods[index].Y, this.ant, ant.Home.OpenFoods[index]));
             }
         }
         private int MinDictance()

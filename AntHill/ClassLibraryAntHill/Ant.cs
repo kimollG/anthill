@@ -9,7 +9,7 @@ namespace ClassLibraryAntHill
     public abstract class Ant:IDrawable,IDispose
     {
         public abstract void Draw(Graphics g);
-        internal  IStrategy strategy;
+        internal  ICommand strategy;
         private double x;
         private double y;
         public IPlace Place { get; private set; }
@@ -20,7 +20,6 @@ namespace ClassLibraryAntHill
         public double LastY { get { return ly; } }
         private string name;
         public int Hp { get; protected set; }
-        //public List<Command> commands;
         public int Speed { get; set; }
         public abstract void Thinking();
         protected DisposeMethod disp;
@@ -36,7 +35,7 @@ namespace ClassLibraryAntHill
                 disp = value;
             }
         }
-        internal void SetStrategy(IStrategy s)
+        internal void SetStrategy(ICommand s)
         {
             strategy = s;
         }
@@ -64,6 +63,7 @@ namespace ClassLibraryAntHill
             //commands = new List<Command>();
             this.name = name;
             Place = home;
+            home.CorrectLocation(this);
         }
         public abstract void BeAttaсked(int damage);
     }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ClassLibraryAntHill
 {
-    interface IStrategy
+    interface ICommand
     {
         IPlace place { get; set; }
         void Execute();
