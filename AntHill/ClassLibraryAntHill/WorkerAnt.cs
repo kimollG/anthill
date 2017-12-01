@@ -31,88 +31,53 @@ namespace ClassLibraryAntHill
         }
         public override void Thinking()
         {
-            if(strategy==null)
+            if (command == null)
             {
-                SetStrategy(new WalkatHomeCommand(this, TypeOfNodes.exit,new Field()));
+                SetCommand(new WalkatHomeCommand(this, TypeOfNodes.exit, new Field()));
             }
             else
             {
-                strategy.Execute();
-            }
-            /*int index = MinDictance();
-            if (commands[0].action == Action.findfood)
-            {
-                if (index != -1)
+                if (command.Execute())
                 {
-                    commands.Clear();
-                    commands.Add(new Command(Action.gotoFood, OpenFoods[index].X, OpenFoods[index].Y));
-                }
-                else
-                {
-                    if (X > 10 && X < 650 && Y > 10 && Y < 400)
+                    if (command is MovingCommand)
                     {
-                        double a = Math.Atan((LastY - Y) / (LastX - X));
-                        Move(Math.Cos(a) * Speed, Math.Sin(a) * Speed);
-                    }
-                    else
-                    {
-                        commands.Clear();
-                        commands.Add(new Command(Action.gotoAntHill, 100, 100));
-                    }
-
-                }
-            }
-
-            if (commands[0].action == Action.gotoFood)
-            {
-                if (index == -1)
-                {
-                    commands.Clear();
-                    commands.Add(new Command(Action.findfood));
-                }
-                else
-                {
-                    double d = Math.Sqrt((X - OpenFoods[index].X) * (X - OpenFoods[index].X) + (Y - OpenFoods[index].Y) * (Y - OpenFoods[index].Y));
-                    if (d < 10)
-                    {
-                        commands.Clear();
-                        commands.Add(new Command(Action.gotoAntHill, 100, 100));
-                        IsBringing = true;
-                        OpenFoods[index].ChangeFood();
-                    }
-                    else
-                    {
-                        double a = Math.Atan((OpenFoods[index].Y - Y) / (OpenFoods[index].X - X));
-                        if ( X>= OpenFoods[index].X)
-                            Move(-Math.Cos(a) * Speed, -Math.Sin(a) * Speed);
+                        if (((Food)command.place).Hp > 0)
+                        {
+                            IsBringing = true;
+                            ((Food)command.place).ChangeFood();
+                            SetCommand(new WalkatHomeCommand(this, TypeOfNodes.storage, Home));
+                        }
                         else
                         {
-                            Move(Math.Cos(a) * Speed, Math.Sin(a) * Speed);
+                            SetCommand(new FindingCommand(this, new Field()));
+                        }
+                    }
+                    else
+                    if (command is FindingCommand)
+                    {
+                        SetCommand(new WalkatHomeCommand(this, TypeOfNodes.storage, Home));
+                    }
+                    else
+                    {
+                        if (command is WalkatHomeCommand)
+                        {
+                            if (command.place is Field)
+                                SetCommand(new FindingCommand(this, new Field()));
+                            else
+                            {
+                                SetCommand(new WalkatHomeCommand(this, TypeOfNodes.exit, new Field()));
+                                if (IsBringing)
+                                {
+                                    IsBringing = false;
+                                    Home.GiveFood();
+                                }
+                            }
                         }
 
                     }
                 }
+
             }
-            if (commands[0].action == Action.gotoAntHill)
-            {
-                double d = Math.Sqrt((X - 100) * (X - 100) + (Y - 100) * (Y - 100));
-                if (d < 5)
-                {
-                    IsBringing = false;
-                    commands.Clear();
-                    commands.Add(new Command(Action.findfood));
-                }
-                else
-                {
-                    double a = Math.Atan((100 - Y) / (100 - X));
-                    if(X>=100 )
-                    Move(-Math.Cos(a) * Speed, -Math.Sin(a) * Speed);
-                    else
-                    {
-                        Move(Math.Cos(a) * Speed, Math.Sin(a) * Speed);
-                    }
-                }
-            }*/
         }
         private int MinDictance()
         {

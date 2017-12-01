@@ -18,7 +18,6 @@ namespace ClassLibraryAntHill
     public class Node:IPlace
     {
         public PointF point { get; private set; }
-        public List<Ant> Ants;
         public List<Edge> Edges; 
         public TypeOfNodes type { get; private set; }
         public bool visit;
@@ -27,7 +26,6 @@ namespace ClassLibraryAntHill
         {
             this.point = point;
             this.type = type;
-            Ants = new List<Ant>();
             this.Edges = Edges;
             visit = false;
             this.r = r;
@@ -45,12 +43,10 @@ namespace ClassLibraryAntHill
     {
         public Node followignode{ get; private set; }
         public float r { get; private set; }
-        public List<Ant> Ants;
         public bool visit;
         public Edge(Node followignode, float r)
         {
             this.r = r;
-            Ants = new List<Ant>();
             this.followignode = followignode;
             visit = false;
         }
@@ -68,23 +64,21 @@ namespace ClassLibraryAntHill
         public PointF center { get; private set; }
         public float radius { get; private set; }
         public int Food { get; private set; }
-        List<Ant> LeaveAnts;
         public List<Node> Nodes { get; private set; }
         public List<Food> OpenFoods { get; private set; }
         public AntHill(PointF center, List<Node> N,float rad)
         {
             Food = 1000;
-            LeaveAnts = new List<Ant>();
             OpenFoods = new List<Food>();
             Nodes = N;
             radius = rad;
             this.center = center;
         }
-        public void GiveFood()
+        public void GiveFood()//Увеличение еды
         {
             Food += 100;
         }
-        public Node NearestNode(double x, double y, TypeOfNodes type)
+        public Node NearestNode(double x, double y, TypeOfNodes type)//Ближайший узел по типу
         {
             int index = -1;
             double d = 1000000;
@@ -102,7 +96,7 @@ namespace ClassLibraryAntHill
             }
             return Nodes[index];
         }
-        public void CorrectLocation(Ant ant)
+        public void CorrectLocation(Ant ant)//Начальный метод корректирования позиции вызывается один раз
         {
             if (isInside(ant.X, ant.Y))
             {
@@ -127,8 +121,10 @@ namespace ClassLibraryAntHill
                 }
             }
         }
-        public Node FindingNode(double x, double y,Ant ant)
+        public Node FindingNode(Ant ant)//Узел ,в котором муравей, всё по координатам
         {
+            double x = ant.X;
+            double y = ant.Y;
             if (isInside(x, y))
             {
                 int index = -1;
@@ -187,7 +183,7 @@ namespace ClassLibraryAntHill
                 }
             }
         }
-        public void Process(int count)
+        public void Process(int count)//Уменьшение еды в каждый тик в зависимости от количества муравьёв
         {
             Food -= count;
             if (Food < 0)
@@ -206,35 +202,8 @@ namespace ClassLibraryAntHill
                     Nodes[i].Edges[j].visit = false;
                 }
             }
-            LeaveAnts.Clear();
-        }
-        public List<Ant> PostAntOut()
-        {
-            return LeaveAnts;
-        }
-        public void GetAntToHill(List<Ant> ants)
-        {
-            for(int i=0;i<ants.Count;i++)
-            {
-                for(int j=0;j<Nodes.Count;j++)
-                {
-                    if(Nodes[j].type==TypeOfNodes.exit)
-                    {
-                        double x = ants[i].X;
-                        double y = ants[i].Y;
-                        double x1 = Nodes[j].point.X;
-                        double y1 = Nodes[j].point.Y;
-                        double d = Math.Sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
-                        if(d<5)
-                        {
-                            Nodes[j].Ants.Add(ants[i]);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        public bool isInside(double x, double y)
+        }       
+        public bool isInside(double x, double y)//Принадлежность границе
         {
             if (x < center.X + radius && x > center.X - radius && y < center.Y + radius && y > center.Y - radius)
             {

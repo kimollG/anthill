@@ -8,6 +8,6 @@ namespace ClassLibraryAntHill
     interface ICommand
     {
         IPlace place { get; set; }
-        void Execute();
+        bool Execute();
     }
 }

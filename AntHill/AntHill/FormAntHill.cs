@@ -60,7 +60,6 @@ namespace AntHill
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(Color.White);
-            g.DrawEllipse(new Pen(Color.Black, 4), 30, 30, 140, 140);
             field.AntHills.ForEach(ah => ah.Draw(g));
             field.Ants.ForEach(a => a.Draw(g));
             field.Foods.ForEach(f => f.Draw(g));

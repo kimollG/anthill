@@ -18,13 +18,12 @@ namespace ClassLibraryAntHill
             place = p;
             this.ant = ant;
         }
-        public void Execute()
+        public bool Execute()
         {
             double d = Math.Sqrt((X - ant.X) * (X - ant.X) + (Y - ant.Y) * (Y - ant.Y));
             if (d < 3)
             {
-                if (!(ant.strategy is WalkatHomeCommand))
-                    ant.SetStrategy(new DoCommand(ant, place));
+                return true;//Достигли цели
             }
             else
             {
@@ -36,7 +35,7 @@ namespace ClassLibraryAntHill
                     ant.Move(Math.Cos(a) * ant.Speed, Math.Sin(a) * ant.Speed);
                 }
             }
-
+            return false;
 
         }
     }

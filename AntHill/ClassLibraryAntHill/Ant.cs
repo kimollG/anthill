@@ -9,7 +9,7 @@ namespace ClassLibraryAntHill
     public abstract class Ant:IDrawable,IDispose
     {
         public abstract void Draw(Graphics g);
-        internal  ICommand strategy;
+        internal  ICommand command;
         private double x;
         private double y;
         public IPlace Place { get; private set; }
@@ -35,9 +35,9 @@ namespace ClassLibraryAntHill
                 disp = value;
             }
         }
-        internal void SetStrategy(ICommand s)
+        internal void SetCommand(ICommand s)
         {
-            strategy = s;
+            command = s;
         }
         public AntHill Home { get; private set; }
         public void Move(double dx,double dy)

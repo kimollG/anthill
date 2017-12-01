@@ -14,7 +14,7 @@ namespace ClassLibraryAntHill
             this.ant = ant;
             place = p;
         }
-        public void Execute()
+        public bool Execute()
         {
             if (place.isInside(ant.X,ant.Y))
             {
@@ -23,29 +23,29 @@ namespace ClassLibraryAntHill
             }
             else
             {
-                //ant.SetStrategy(new MovingStrategy(ant.Home.center.X, ant.Home.center.Y, this.ant,place));
-                ant.SetStrategy(new WalkatHomeCommand(ant,TypeOfNodes.storage,ant.Home));
+                return true;//Выход за границы
             }
-            int index = MinDictance();
-            if(index!=-1)
+            Food food = MinDictanceFood();
+            if(food!=null)
             {
-                ant.SetStrategy(new MovingCommand(ant.Home.OpenFoods[index].X, ant.Home.OpenFoods[index].Y, this.ant, ant.Home.OpenFoods[index]));
+                ant.SetCommand(new MovingCommand(food.X, food.Y, this.ant, food));
             }
+            return false;
         }
-        private int MinDictance()
+        private Food MinDictanceFood()//Здесь есть проблема надо создать общий тип вместо Iplace!!!!
         {
-            double dist = 400;
-            int index = -1;
+            double dist = 300;
+            Food food = null;
             for (int i = 0; i < ant.Home.OpenFoods.Count; i++)
             {
                 double d = Math.Sqrt((ant.X - ant.Home.OpenFoods[i].X) * (ant.X - ant.Home.OpenFoods[i].X) + (ant.Y - ant.Home.OpenFoods[i].Y) * (ant.Y - ant.Home.OpenFoods[i].Y));
                 if (dist > d)
                 {
                     dist = d;
-                    index = i;
+                    food = ant.Home.OpenFoods[i];
                 }
             }
-            return index;
+            return food;
         }
     }
 }
