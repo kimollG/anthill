@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Drawing;
 namespace ClassLibraryAntHill
 {
 
@@ -27,11 +27,11 @@ namespace ClassLibraryAntHill
         }
         public void BornAnt(double x, double y, string name)
         {
-            Ants.Add(new WorkerAnt(x, y, name, AntHills[0]) { Dispose = (a) => Ants.Remove((Ant)a) });
+            Ants.Add(new WorkerAnt(Convert.ToSingle(x), Convert.ToSingle(y), name, AntHills[0]) { Dispose = (a) => Ants.Remove((Ant)a) });
         }
-        public void BornFood(double x, double y)
+        public void BornFood(float x, float y)
         {
-            Foods.Add(new Food(x, y) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); } });
+            Foods.Add(new Food(new PointF(x, y)) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); } });
         }
         public bool isInside(double x,double y)
         {
@@ -50,13 +50,11 @@ namespace ClassLibraryAntHill
                 {
                     Ants[i].commands.Add(new Command(Action.findfood));
                 }*/
-
-                ((WorkerAnt)Ants[i]).GiveOpenFoods(AntHills[0].OpenFoods);
                 Ants[i].Thinking();
                 if (Ants[i] is WorkerAnt)
                     for (int j = 0; j < Foods.Count; j++)
                     {
-                        double d = Math.Sqrt((Ants[i].X - Foods[j].X) * (Ants[i].X - Foods[j].X) + (Ants[i].Y - Foods[j].Y) * (Ants[i].Y - Foods[j].Y));
+                        double d = AntMath.Dist(Ants[i].Center, Foods[j].Center);                          
                         if (d < 50)
                         {
                             if (!AntHills[0].OpenFoods.Exists(x => x == Foods[j]))

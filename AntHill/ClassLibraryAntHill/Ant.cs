@@ -6,15 +6,13 @@ using System.Drawing;
 
 namespace ClassLibraryAntHill
 {
-    public abstract class Ant:IDrawable,IDispose
+    public abstract class Ant:IDrawable,IDispose,IObjectField
     {
         public abstract void Draw(Graphics g);
         internal  ICommand command;
-        private double x;
-        private double y;
         public IPlace Place { get; private set; }
-        public double X { get { return x; } }
-        public double Y { get { return y; } }
+        private PointF center;
+        public PointF Center { get { return center; } }
         private double lx, ly;
         public double LastX { get { return lx; } }
         public double LastY { get { return ly; } }
@@ -35,6 +33,14 @@ namespace ClassLibraryAntHill
                 disp = value;
             }
         }
+        public bool isInside(double x, double y)
+        {
+            if (Math.Abs(Center.X -x)<5 && Math.Abs(Center.Y - x) < 5)
+            {
+                return false;
+            }
+            return true;
+        }
         internal void SetCommand(ICommand s)
         {
             command = s;
@@ -42,21 +48,21 @@ namespace ClassLibraryAntHill
         public AntHill Home { get; private set; }
         public void Move(double dx,double dy)
         {
-            lx = x;
-            ly = y;
-            x = x + dx;
-            y = y + dy;
+            lx = center.X;
+            ly = center.Y;
+            center.X = center.X + Convert.ToSingle(dx);
+            center.Y = center.Y + Convert.ToSingle(dy);
         }
         public void ChangePlace(IPlace p)
         {
             Place = p;
         }
         private static Random rnd= new Random();
-        public Ant(double x ,double y,string name,AntHill home)
+        public Ant(float x ,float y,string name,AntHill home)
         {
             this.Home = home;
-            this.x = x;
-            this.y = y;
+            center.X = x;
+            center.Y = y;
             double a = Math.PI * rnd.NextDouble();
             Move(Math.Cos(a), Math.Sin(a));
             Hp = 100;

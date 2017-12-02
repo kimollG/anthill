@@ -5,12 +5,11 @@ using System.Text;
 using System.Drawing;
 namespace ClassLibraryAntHill
 {
-    public class Food:IDrawable,IDispose,IPlace
+    public class Food:IDrawable,IDispose,IObjectField
     {
         private int hp;
+        public PointF Center { get; }
         public int Hp { get { return hp; } }
-        public double X { get; }
-        public double Y { get; }
         protected DisposeMethod disp;
         public DisposeMethod Dispose
         {
@@ -25,11 +24,10 @@ namespace ClassLibraryAntHill
             }
         }
 
-        public Food(double x,double y)
+        public Food(PointF center)
         {
             hp = 100;
-            X = x;
-            Y = y;
+            this.Center = center;
         }
         public void ChangeFood()
         {
@@ -38,7 +36,7 @@ namespace ClassLibraryAntHill
         }
         public bool isInside(double x, double y)
         {
-            if (x < X + 7 && x > X - 7 && y < Y + 7 && y > Y - 7)
+            if (x < Center.X + 7 && x > Center.X - 7 && y < Center.Y + 7 && y > Center.Y - 7)
             {
                 return true;
             }
@@ -46,7 +44,7 @@ namespace ClassLibraryAntHill
         }
         public void Draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Green, Convert.ToSingle(this.X -7.5), Convert.ToSingle(this.Y - 5), 10, 10);
+            g.FillEllipse(Brushes.Green, Convert.ToSingle(this.Center.X -7.5), Convert.ToSingle(this.Center.Y - 5), 10, 10);
         }
     }
 }

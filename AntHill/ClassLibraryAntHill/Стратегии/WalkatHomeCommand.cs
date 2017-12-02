@@ -24,14 +24,14 @@ namespace ClassLibraryAntHill
             Node first=ant.Home.FindingNode(ant);
             if(first==null )
             {
-                first = ant.Home.NearestNode(ant.X, ant.Y, TypeOfNodes.exit);
+                first = ant.Home.NearestNode(ant.Center.X, ant.Center.Y, TypeOfNodes.exit);
             }
-            Node finish = ant.Home.NearestNode(ant.X, ant.Y, type);
+            Node finish = ant.Home.NearestNode(ant.Center.X, ant.Center.Y, type);
             List<Node> Nodes = new List<Node>();
             Nodes = ant.Home.Deicstra(first, finish);
             for (int i = 0; i < Nodes.Count; i++)
             {
-                actions.Add(new MovingCommand(Nodes[i].point.X, Nodes[i].point.Y, ant, Nodes[i]));
+                actions.Add(new MovingCommand(Nodes[i].center.X, Nodes[i].center.Y, ant, Nodes[i]));
             }
         }
         public bool Execute()

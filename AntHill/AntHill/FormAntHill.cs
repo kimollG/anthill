@@ -34,8 +34,8 @@ namespace AntHill
             if(i%20==19)
             {
                 Random rnd = new Random();
-                double x = rnd.Next(110, 650);
-                double y = rnd.Next(110, 400);
+                float x = rnd.Next(110, 650);
+                float y = rnd.Next(110, 400);
                 field.BornFood(x, y);
             }
         }

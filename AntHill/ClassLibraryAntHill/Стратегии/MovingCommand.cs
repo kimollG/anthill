@@ -20,15 +20,15 @@ namespace ClassLibraryAntHill
         }
         public bool Execute()
         {
-            double d = Math.Sqrt((X - ant.X) * (X - ant.X) + (Y - ant.Y) * (Y - ant.Y));
+            double d = AntMath.Dist(X, Y, ant.Center.X, ant.Center.Y);
             if (d < 3)
             {
                 return true;//Достигли цели
             }
             else
             {
-                double a = Math.Atan((Y - ant.Y) / (X - ant.X));
-                if (ant.X >= X)
+                double a = Math.Atan((Y - ant.Center.Y) / (X - ant.Center.X));
+                if (ant.Center.X >= X)
                     ant.Move(-Math.Cos(a) * ant.Speed, -Math.Sin(a) * ant.Speed);
                 else
                 {

@@ -5,8 +5,8 @@ using System.Text;
 using System.Drawing;
 namespace ClassLibraryAntHill
 {
-    public interface IPlace
+    public interface IObjectField:IPlace
     {
-        bool isInside(double x, double y);
+        PointF Center { get; }
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="AntHill.cs" />
     <Compile Include="AntMath.cs" />
     <Compile Include="BuilderAntHill.cs" />
+    <Compile Include="IObjectField.cs" />
     <Compile Include="Стратегии\DoCommand.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Стратегии\FindingCommand.cs" />

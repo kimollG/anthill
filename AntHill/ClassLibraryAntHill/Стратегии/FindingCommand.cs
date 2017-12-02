@@ -9,43 +9,46 @@ namespace ClassLibraryAntHill
     {
         public IPlace place { get; set; }
         private Ant ant;
-        public FindingCommand(Ant ant,IPlace p)
+        private List<IObjectField> findingObjects;
+        public FindingCommand(Ant ant,IPlace p,List<IObjectField> f)
         {
             this.ant = ant;
             place = p;
+            findingObjects = new List<IObjectField>();
+            findingObjects = f;
         }
         public bool Execute()
         {
-            if (place.isInside(ant.X,ant.Y))
+            if (place.isInside(ant.Center.X,ant.Center.Y))
             {
-                double a = Math.Atan((ant.LastY - ant.Y) / (ant.LastX - ant.X));
+                double a = Math.Atan((ant.LastY - ant.Center.Y) / (ant.LastX - ant.Center.X));
                 ant.Move(Math.Cos(a) * ant.Speed, Math.Sin(a) * ant.Speed);
             }
             else
             {
                 return true;//Выход за границы
             }
-            Food food = MinDictanceFood();
-            if(food!=null)
+            IObjectField obj = MinDictanceFood();
+            if(obj!=null)
             {
-                ant.SetCommand(new MovingCommand(food.X, food.Y, this.ant, food));
+                ant.SetCommand(new MovingCommand(obj.Center.X, obj.Center.Y, this.ant, obj));
             }
             return false;
         }
-        private Food MinDictanceFood()//Здесь есть проблема надо создать общий тип вместо Iplace!!!!
+        private IObjectField MinDictanceFood()
         {
             double dist = 300;
-            Food food = null;
-            for (int i = 0; i < ant.Home.OpenFoods.Count; i++)
+           IObjectField obj = null;
+            for (int i = 0; i < findingObjects.Count; i++)
             {
-                double d = Math.Sqrt((ant.X - ant.Home.OpenFoods[i].X) * (ant.X - ant.Home.OpenFoods[i].X) + (ant.Y - ant.Home.OpenFoods[i].Y) * (ant.Y - ant.Home.OpenFoods[i].Y));
+                double d = AntMath.Dist(findingObjects[i].Center, ant.Center);                  
                 if (dist > d)
                 {
                     dist = d;
-                    food = ant.Home.OpenFoods[i];
+                    obj = findingObjects[i];
                 }
             }
-            return food;
+            return obj;
         }
     }
 }
