@@ -15,14 +15,14 @@ namespace ClassLibraryAntHill
         larvae,//личинки
         exit,
     }
-    public class Node:IPlace
+    public class Node : IPlace
     {
         public PointF center { get; private set; }
-        public List<Edge> Edges; 
+        public List<Edge> Edges;
         public TypeOfNodes type { get; private set; }
         public bool visit;
         public float r { get; private set; }
-        public Node(PointF point, TypeOfNodes type, List<Edge> Edges,float r)
+        public Node(PointF point, TypeOfNodes type, List<Edge> Edges, float r)
         {
             this.center = point;
             this.type = type;
@@ -30,18 +30,18 @@ namespace ClassLibraryAntHill
             visit = false;
             this.r = r;
         }
-        public bool isInside(double x,double y)
+        public bool isInside(double x, double y)
         {
-            if(x<center.X+r && x > center.X-r && y < center.Y + r && y > center.Y - r)
+            if (x < center.X + r && x > center.X - r && y < center.Y + r && y > center.Y - r)
             {
                 return true;
             }
             return false;
         }
     }
-    public class Edge:IPlace
+    public class Edge : IPlace
     {
-        public Node followignode{ get; private set; }
+        public Node followignode { get; private set; }
         public float r { get; private set; }
         public bool visit;
         public Edge(Node followignode, float r)
@@ -52,27 +52,43 @@ namespace ClassLibraryAntHill
         }
         public bool isInside(double x, double y)
         {
-            if (x > followignode.center.X  && y > followignode.center.Y  )
+            if (x > followignode.center.X && y > followignode.center.Y)
             {
                 return true;
             }
             return false;
         }
     }
-    public class AntHill:IPlace
+    public class AntHill : IPlace
     {
         public PointF center { get; private set; }
         public float radius { get; private set; }
         public int Food { get; private set; }
         public List<Node> Nodes { get; private set; }
+        public List<Ant> Ants { get; private set; }
         public List<IObjectField> OpenFoods { get; private set; }
-        public AntHill(PointF center, List<Node> N,float rad)
+        public int Totalnumber { get; private set; }
+        private int NumberWorkers = 0;
+        private int NumberWarrors = 0;
+        public Field field { get; private set; }
+
+        public AntHill(PointF center, List<Node> N, float rad, int n)
         {
+            Ants = new List<Ant>();
             Food = 1000;
+            Totalnumber = 0;
             OpenFoods = new List<IObjectField>();
             Nodes = N;
             radius = rad;
             this.center = center;
+            CreateAnts(n);
+        }
+        public void SetField(Field f)
+        {
+            if(field==null)
+            {
+                field = f;
+            }
         }
         public void GiveFood()//Увеличение еды
         {
@@ -82,12 +98,12 @@ namespace ClassLibraryAntHill
         {
             int index = -1;
             double d = 1000000;
-            for (int i = 0; i < Nodes.Count;i++)
+            for (int i = 0; i < Nodes.Count; i++)
             {
-                if(type==Nodes[i].type)
+                if (type == Nodes[i].type)
                 {
                     double d1 = Math.Sqrt((Nodes[i].center.X - x) * (Nodes[i].center.X - x) + (Nodes[i].center.Y - y) * (Nodes[i].center.Y - y));
-                    if(d1<d)
+                    if (d1 < d)
                     {
                         d = d1;
                         index = i;
@@ -105,7 +121,7 @@ namespace ClassLibraryAntHill
                 for (int i = 0; i < Nodes.Count; i++)
                 {
 
-                    double d1 = AntMath.Dist(Nodes[i].center, ant.Center);                       
+                    double d1 = AntMath.Dist(Nodes[i].center, ant.Center);
                     if (d1 < d)
                     {
                         d = d1;
@@ -150,48 +166,95 @@ namespace ClassLibraryAntHill
         List<Node> list = new List<Node>();
         List<Node> list2 = new List<Node>();
         double dist;
-        public List<Node> Deicstra(Node firstnode,Node finishnode )
+        private void CreateAnts(int n)
+        {
+            if(Totalnumber==0)
+            for (int i = 0; i < n; i++)
+            {
+                BornAnt("Ant" + Totalnumber.ToString());
+            }
+        }
+        private static Random rnd = new Random();
+        public void BornAnt(string name)
+        {
+            Totalnumber++;           
+            float x;
+            float y;
+            do
+            { 
+                x = rnd.Next((int)(center.X - radius), (int)(center.X + radius));
+                y = rnd.Next((int)(center.Y - radius), (int)(center.Y + radius));
+            }
+            while (!isInside(x, y));
+            Ant ant;
+            if (NumberWorkers <= 2 * NumberWarrors)
+            {
+                ant = new WorkerAnt(x, y, name) { Dispose = (a) => Ants.Remove((Ant)a) };
+            }
+            else
+            {
+                ant= new WorkerAnt(x, y, name) { Dispose = (a) => Ants.Remove((Ant)a) };//Воин должен быть!!!
+            }
+            ant.SetHome(this);//Установить дом
+            CorrectLocation(ant);//Установить начальное положение в каком-то из Node
+            Ants.Add(ant);
+        }
+        public List<Node> Deicstra(Node firstnode, Node finishnode)
         {
             list = new List<Node>();
             list2 = new List<Node>();
             Clear();
             dist = 10000;
-            Deicstra(firstnode,finishnode,0);
+            Deicstra(firstnode, finishnode, 0);
             return list;
         }
-        private void Deicstra(Node firstnode, Node finishnode,double d)
+        private void Deicstra(Node firstnode, Node finishnode, double d)
         {
             list2.Add(firstnode);
             firstnode.visit = true;
             if (firstnode.center.Equals(finishnode.center))
             {
-                if(d<dist)
+                if (d < dist)
                 {
                     dist = d;
-                    list =new List<Node>(list2);
+                    list = new List<Node>(list2);
                 }
             }
-            for(int i=0;i<firstnode.Edges.Count;i++)
+            for (int i = 0; i < firstnode.Edges.Count; i++)
             {
-                if(firstnode.Edges[i].followignode.visit==false)
+                if (firstnode.Edges[i].followignode.visit == false)
                 {
                     double x = firstnode.Edges[i].followignode.center.X;
                     double y = firstnode.Edges[i].followignode.center.Y;
-                    double dd= Math.Sqrt((firstnode.center.X - x) * (firstnode.center.X - x) + (firstnode.center.Y - y) * (firstnode.center.Y - y));
+                    double dd = Math.Sqrt((firstnode.center.X - x) * (firstnode.center.X - x) + (firstnode.center.Y - y) * (firstnode.center.Y - y));
                     Deicstra(firstnode.Edges[i].followignode, finishnode, d + dd);
                     list2.RemoveAt(list2.Count - 1);
                 }
             }
         }
-        public void Process(int count)//Уменьшение еды в каждый тик в зависимости от количества муравьёв
+        public void Process()
         {
-            Food -= count;
+            Food -= Ants.Count / 10 + 1;//Уменьшение еды в каждый тик в зависимости от количества муравьёв
             if (Food < 0)
             {
                 Food = 0;
             }
+            for (int i = 0; i < Ants.Count; i++)
+            {
+                Ants[i].Thinking();
+                    
+            }
+            if (Food == 0)//Смерть от голода
+            {
+                Random rnd = new Random();
+                int index = rnd.Next(0, Ants.Count * 3);
+                if (index < Ants.Count)
+                    Ants.RemoveAt(index);
+            }
+
+
         }
-       
+
         public void Clear()
         {
             for (int i = 0; i < Nodes.Count; i++)
@@ -202,10 +265,10 @@ namespace ClassLibraryAntHill
                     Nodes[i].Edges[j].visit = false;
                 }
             }
-        }       
-        public bool isInside(double x, double y)//Принадлежность границе
+        }
+        public bool isInside(double x, double y)//Принадлежность муравейнику
         {
-            if (x < center.X + radius && x > center.X - radius && y < center.Y + radius && y > center.Y - radius)
+            if ((x-center.X)* (x - center.X) + (y - center.Y)*(y - center.Y) <radius*radius)
             {
                 return true;
             }
@@ -218,7 +281,7 @@ namespace ClassLibraryAntHill
             int count = 0;
             for (int i = 0; i < Nodes.Count; i++)
             {
-                if(Nodes[i].type==TypeOfNodes.storage)
+                if (Nodes[i].type == TypeOfNodes.storage)
                 {
                     count++;
                 }
@@ -228,13 +291,13 @@ namespace ClassLibraryAntHill
                 PointF point = Nodes[i].center;
                 float r = Nodes[i].r;
                 g.FillEllipse(Brushes.White, point.X - r, point.Y - r, 2 * r, 2 * r);
-                if(Nodes[i].type == TypeOfNodes.storage)
+                if (Nodes[i].type == TypeOfNodes.storage)
                 {
                     int d = 5;
-                    int[] arr = {4 , 8, 12 , 16, 20, 16, 12, 8, 4 };
+                    int[] arr = { 4, 8, 12, 16, 20, 16, 12, 8, 4 };
                     int summ = 0;
                     int kk = 0;
-                    for (int j=0;j< Food / count- (ok==true ?0:1); j += 100)
+                    for (int j = 0; j < Food / count - (ok == true ? 0 : 1); j += 100)
                     {
                         if (j / 100 - summ == arr[kk])
                         {
@@ -248,21 +311,21 @@ namespace ClassLibraryAntHill
                     }
                     int cc = 1;
                     summ = 0;
-                    for(int j=0;j<Food/count-(ok == true ? 0 : 1); j+=100)
+                    for (int j = 0; j < Food / count - (ok == true ? 0 : 1); j += 100)
                     {
-                        if(j/100- summ == arr[cc-1])
+                        if (j / 100 - summ == arr[cc - 1])
                         {
                             summ += arr[cc - 1];
                             cc++;
-                            if(cc>8)
+                            if (cc > 8)
                             {
                                 break;
                             }
                         }
-                        float step = cc*r /(kk+1);
-                        float rel = j/100 - summ;
-                        float dd= rel*step / arr[cc - 1];
-                        g.FillEllipse(Brushes.Green, point.X -step+dd, point.Y + r-step,  d, d);
+                        float step = cc * r / (kk + 1);
+                        float rel = j / 100 - summ;
+                        float dd = rel * step / arr[cc - 1];
+                        g.FillEllipse(Brushes.Green, point.X - step + dd, point.Y + r - step, d, d);
                         g.DrawEllipse(Pens.Black, point.X - step + dd, point.Y + r - step, d, d);
                     }
                     ok = false;
@@ -274,6 +337,7 @@ namespace ClassLibraryAntHill
                 }
             }
             Clear();
+            Ants.ForEach(a => a.Draw(g));
         }
     }
 }

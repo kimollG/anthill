@@ -9,7 +9,7 @@ namespace ClassLibraryAntHill
     public class WorkerAnt : Ant
     {   
         internal bool IsBringing { get; set; }
-        public WorkerAnt(float x, float y, string name,AntHill home) : base(x, y, name,home)
+        public WorkerAnt(float x, float y, string name) : base(x, y, name)
         {
             
             IsBringing = false;
@@ -70,6 +70,17 @@ namespace ClassLibraryAntHill
                 }
 
             }
+            List<IObjectField> list= Home.field.FindObjects(Center.X, Center.Y);
+            for(int i=0;i<list.Count;i++)
+            {
+                if(list[i]is Food)
+                {
+                    if(!Home.OpenFoods.Exists(x => x == list[i]))
+                    {
+                        Home.OpenFoods.Add(list[i]);
+                    }
+                }
+            }
         }
         public override void Draw(Graphics g)
         {
@@ -94,10 +105,10 @@ namespace ClassLibraryAntHill
             {
                 //g.FillEllipse(Brushes.Green, 0, 0, 10, 6);
             }
-            float x = 8;
+            /*float x = 8;
             if (this.LastX > this.Center.X)
                 x = -2;
-            float y = 1.115f;
+            float y = 1.115f;*/
             //if (((WorkerAnt)this).IsBringing)
             //g.FillEllipse(Brushes.Black, x, y, 10, 10);
             g.RotateTransform(-Convert.ToSingle(a));

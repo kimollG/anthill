@@ -10,7 +10,6 @@ namespace ClassLibraryAntHill
     {
         public abstract void Draw(Graphics g);
         internal  ICommand command;
-        public IPlace Place { get; private set; }
         private PointF center;
         public PointF Center { get { return center; } }
         private double lx, ly;
@@ -21,6 +20,7 @@ namespace ClassLibraryAntHill
         public int Speed { get; set; }
         public abstract void Thinking();
         protected DisposeMethod disp;
+        public AntHill Home { get; private set; }
         public DisposeMethod Dispose
         {
             get
@@ -45,7 +45,6 @@ namespace ClassLibraryAntHill
         {
             command = s;
         }
-        public AntHill Home { get; private set; }
         public void Move(double dx,double dy)
         {
             lx = center.X;
@@ -53,14 +52,9 @@ namespace ClassLibraryAntHill
             center.X = center.X + Convert.ToSingle(dx);
             center.Y = center.Y + Convert.ToSingle(dy);
         }
-        public void ChangePlace(IPlace p)
-        {
-            Place = p;
-        }
         private static Random rnd= new Random();
-        public Ant(float x ,float y,string name,AntHill home)
+        public Ant(float x ,float y,string name)
         {
-            this.Home = home;
             center.X = x;
             center.Y = y;
             double a = Math.PI * rnd.NextDouble();
@@ -68,8 +62,13 @@ namespace ClassLibraryAntHill
             Hp = 100;
             //commands = new List<Command>();
             this.name = name;
-            Place = home;
-            home.CorrectLocation(this);
+        }
+        internal void SetHome(AntHill home)//Типа одиночки
+        {
+            if(Home==null)
+            {
+                Home = home;
+            }
         }
         public abstract void BeAttaсked(int damage);
     }

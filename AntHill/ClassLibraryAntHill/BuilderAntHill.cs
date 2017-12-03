@@ -10,10 +10,12 @@ namespace ClassLibraryAntHill
         public PointF center { get; private set; }
         public float radius { get; private set; }
         public List<Node> Nodes { get; private set; }
-        public BuilderAntHill(PointF center, float radius)
+        public int N { get; set; }
+        public BuilderAntHill(PointF center, float radius,int n)
         {
             this.center = center;
             this.radius = radius;
+            N = n;
             Nodes = new List<Node>();
         }
         public abstract AntHill CreateAntHill();
@@ -22,13 +24,14 @@ namespace ClassLibraryAntHill
     }
     public class MyBuilderAntHill : BuilderAntHill
     {
-        public MyBuilderAntHill(PointF center, float radius):base(center,radius)
+        public MyBuilderAntHill(PointF center, float radius,int n):base(center,radius,n)
         {
         }
         public override AntHill CreateAntHill()
         {
             NodesBuild();
-            return new AntHill(center, Nodes, radius);
+            AntHill home= new AntHill(center, Nodes, radius,N);
+            return home;
         }
         public override void AddNode(Node node)
         {

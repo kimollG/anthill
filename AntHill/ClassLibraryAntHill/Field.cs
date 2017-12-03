@@ -9,28 +9,58 @@ namespace ClassLibraryAntHill
     public class Field:IPlace
     {
         public List<AntHill> AntHills { get; private set; }
-        public List<Ant> Ants { get; private set; }
-        public List<Ant> Pests { get; private set; }
-        public List<Food> Foods { get; private set; }
+        private List<Ant> Pests;
+        private List<Food> Foods;
+        public int Numberticks { get; private set; }
         public Field(List<AntHill> aaa)
         {
             AntHills = aaa;
+            Numberticks = 0;
             Foods = new List<Food>();
             Pests = new List<Ant>();
-            Ants = new List<Ant>();
+            for (int i = 0; i < AntHills.Count;i++)
+            {
+                AntHills[i].SetField(this);
+            }
+
+        }
+        public List<IObjectField> FindObjects(float x, float y)
+        {
+            List<IObjectField> objects = new List<IObjectField>();
+            for (int j = 0; j < Foods.Count; j++)
+            {
+                double d = AntMath.Dist(x,y, Foods[j].Center.X, Foods[j].Center.Y);
+                if (d < 50)
+                {
+                     objects.Add(Foods[j]);
+                }
+            }
+            for (int j = 0; j < Pests.Count; j++)
+            {
+                double d = AntMath.Dist(x, y, Pests[j].Center.X, Pests[j].Center.Y);
+                if (d < 50)
+                {
+                    objects.Add(Pests[j]);
+                }
+            }
+            return objects;
         }
         public Field()
         {
             Foods = new List<Food>();
             Pests = new List<Ant>();
-            Ants = new List<Ant>();
         }
-        public void BornAnt(double x, double y, string name)
+        public void BornFood()
         {
-            Ants.Add(new WorkerAnt(Convert.ToSingle(x), Convert.ToSingle(y), name, AntHills[0]) { Dispose = (a) => Ants.Remove((Ant)a) });
-        }
-        public void BornFood(float x, float y)
-        {
+            float x;
+            float y;
+            do
+            {
+                Random rnd = new Random();
+                x = rnd.Next(5, 650);
+                y = rnd.Next(5, 400);
+            }
+            while (AntHills[0].isInside(x-5, y-5)&& AntHills[0].isInside(x+5, y+5));
             Foods.Add(new Food(new PointF(x, y)) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); } });
         }
         public bool isInside(double x,double y)
@@ -43,35 +73,19 @@ namespace ClassLibraryAntHill
         }
         public void Process()
         {
-            AntHills[0].Process(Ants.Count/10+ 1);
-            for (int i = 0; i < Ants.Count; i++)
+            Numberticks++;
+            AntHills[0].Process();
+            if (Numberticks % 20 == 19)
             {
-                /*if (Ants[i].commands.Count == 0)
-                {
-                    Ants[i].commands.Add(new Command(Action.findfood));
-                }*/
-                Ants[i].Thinking();
-                if (Ants[i] is WorkerAnt)
-                    for (int j = 0; j < Foods.Count; j++)
-                    {
-                        double d = AntMath.Dist(Ants[i].Center, Foods[j].Center);                          
-                        if (d < 50)
-                        {
-                            if (!AntHills[0].OpenFoods.Exists(x => x == Foods[j]))
-                            {
-                                AntHills[0].OpenFoods.Add(Foods[j]);
-                            }
-                        }
-                    }
+                BornFood();
             }
-            if(AntHills[0].Food==0)
-            {
-                Random rnd = new Random();
-                int index = rnd.Next(0, Ants.Count*3);
-                if(index<Ants.Count)
-                Ants.RemoveAt(index);
-            }
-
+            
         }
-    }
+        public void Draw(Graphics g)
+        {
+            Foods.ForEach(f => f.Draw(g));
+            Pests.ForEach(f => f.Draw(g));
+            AntHills.ForEach(ah => ah.Draw(g));
+        }
+    } 
 }

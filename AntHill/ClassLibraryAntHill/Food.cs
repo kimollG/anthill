@@ -44,7 +44,7 @@ namespace ClassLibraryAntHill
         }
         public void Draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Green, Convert.ToSingle(this.Center.X -7.5), Convert.ToSingle(this.Center.Y - 5), 10, 10);
+            g.FillEllipse(Brushes.Green, Convert.ToSingle(this.Center.X -5), Convert.ToSingle(this.Center.Y - 5), 10, 10);
         }
     }
 }
