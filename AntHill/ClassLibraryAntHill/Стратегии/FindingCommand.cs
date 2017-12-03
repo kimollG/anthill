@@ -11,8 +11,10 @@ namespace ClassLibraryAntHill
         public IPlace place { get; set; }
         private Ant ant;
         private List<IObjectField> findingObjects;
-        public FindingCommand(Ant ant,IPlace p,List<IObjectField> f)
+        double angle;
+        public FindingCommand(Ant ant,IPlace p,List<IObjectField> f,float direction)
         {
+            angle=direction;
             this.ant = ant;
             place = p;
             findingObjects = new List<IObjectField>();
@@ -24,10 +26,10 @@ namespace ClassLibraryAntHill
         {
             if (place.isInside(ant.Center.X,ant.Center.Y))
             {
-                double dAlpMax=0.5;                
-                double a = Math.Atan((ant.LastY - ant.Center.Y) / (ant.LastX - ant.Center.X));
-                a +=  rnd.NextDouble()* rnd.NextDouble() * rnd.NextDouble() *(rnd.Next(2)==0?-1:1)* dAlpMax;
-                ant.Move(Math.Cos(a) * ant.Speed, Math.Sin(a) * ant.Speed);
+                double dAlpMax=0.1;                
+                
+                angle +=  rnd.NextDouble()* rnd.NextDouble() * rnd.NextDouble() *(rnd.Next(2)==0?-1:1)* dAlpMax;
+                ant.Move(Math.Cos(angle) * ant.Speed, Math.Sin(angle) * ant.Speed);
             }
             else
             {

@@ -42,7 +42,7 @@ namespace ClassLibraryAntHill
                         }
                         else
                         {
-                            SetCommand(new FindingCommand(this, new Field(),Home.OpenFoods));
+                            SetCommand(new FindingCommand(this, new Field(),Home.OpenFoods,Convert.ToSingle(Math.Atan2(this.Center.Y-Home.center.Y,Center.X-Home.center.X))));
                         }
                     }
                     else
@@ -55,7 +55,7 @@ namespace ClassLibraryAntHill
                         if (command is WalkatHomeCommand)
                         {
                             if (command.place is Field)
-                                SetCommand(new FindingCommand(this, new Field(),Home.OpenFoods));
+                                SetCommand(new FindingCommand(this, new Field(),Home.OpenFoods, Convert.ToSingle(Math.Atan2(this.Center.Y - Home.center.Y, Center.X - Home.center.X))));
                             else
                             {
                                 SetCommand(new WalkatHomeCommand(this, TypeOfNodes.exit, new Field()));

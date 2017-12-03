@@ -8,6 +8,7 @@ namespace ClassLibraryAntHill
 
     public class Field:IPlace
     {
+        Random rnd = new Random();
         public List<AntHill> AntHills { get; private set; }
         private List<Ant> Pests;
         private List<Food> Foods;
@@ -60,12 +61,10 @@ namespace ClassLibraryAntHill
             float y;
             do
             {
-                Random rnd = new Random();
                 x = rnd.Next(5, 650);
                 y = rnd.Next(5, 400);
             }
-            while (AntHills[0].isInside(x + 100, y - 100) && AntHills[0].isInside(x - 100, y + 100) &&
-                AntHills[0].isInside(x-100, y-100)&& AntHills[0].isInside(x+100, y+100));
+            while (AntMath.Dist(AntHills[0].center,new PointF(x,y))<AntHills[0].radius+50);
             Foods.Add(new Food(new PointF(x, y)) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); } });
         }
         public bool isInside(double x,double y)
@@ -84,9 +83,6 @@ namespace ClassLibraryAntHill
             {
                 BornFood();
             }
-                BornFood();
-
-            BornFood();
         }
         public void Draw(Graphics g)
         {

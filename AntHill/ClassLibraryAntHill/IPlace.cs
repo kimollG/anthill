@@ -8,5 +8,6 @@ namespace ClassLibraryAntHill
     public interface IPlace
     {
         bool isInside(double x, double y);
+        
     }
 }
