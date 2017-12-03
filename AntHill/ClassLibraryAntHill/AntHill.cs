@@ -6,6 +6,7 @@ using System.Drawing;
 
 namespace ClassLibraryAntHill
 {
+    
     public enum TypeOfNodes
     {
         mother,
@@ -17,6 +18,7 @@ namespace ClassLibraryAntHill
     }
     public class Node : IPlace
     {
+        Random rnd = new Random();
         public PointF center { get; private set; }
         public List<Edge> Edges;
         public TypeOfNodes type { get; private set; }
@@ -67,6 +69,7 @@ namespace ClassLibraryAntHill
         public List<Node> Nodes { get; private set; }
         public List<Ant> Ants { get; private set; }
         public List<IObjectField> OpenFoods { get; private set; }
+        public List<IObjectField> OpenEnemies { get; private set; }
         public int Totalnumber { get; private set; }
         private int NumberWorkers = 0;
         private int NumberWarrors = 0;
@@ -78,6 +81,7 @@ namespace ClassLibraryAntHill
             Food = 1000;
             Totalnumber = 0;
             OpenFoods = new List<IObjectField>();
+            OpenEnemies = new List<IObjectField>();
             Nodes = N;
             radius = rad;
             this.center = center;
@@ -96,6 +100,7 @@ namespace ClassLibraryAntHill
         }
         public Node NearestNode(double x, double y, TypeOfNodes type)//Ближайший узел по типу
         {
+            List<int> indexes = new List<int>();
             int index = -1;
             double d = 1000000;
             for (int i = 0; i < Nodes.Count; i++)
@@ -106,11 +111,11 @@ namespace ClassLibraryAntHill
                     if (d1 < d)
                     {
                         d = d1;
-                        index = i;
+                        indexes.Add(i);
                     }
                 }
             }
-            return Nodes[index];
+            return Nodes[indexes[rnd.Next(indexes.Count)]];
         }
         public void CorrectLocation(Ant ant)//Начальный метод корректирования позиции вызывается один раз
         {
@@ -190,10 +195,12 @@ namespace ClassLibraryAntHill
             if (NumberWorkers <= 2 * NumberWarrors)
             {
                 ant = new WorkerAnt(x, y, name) { Dispose = (a) => Ants.Remove((Ant)a) };
+                NumberWorkers++;
             }
             else
             {
-                ant= new WorkerAnt(x, y, name) { Dispose = (a) => Ants.Remove((Ant)a) };//Воин должен быть!!!
+                ant= new WarriorAnt(x, y, name) { Dispose = (a) => Ants.Remove((Ant)a) };//Воин должен быть!!!
+                NumberWarrors++;
             }
             ant.SetHome(this);//Установить дом
             CorrectLocation(ant);//Установить начальное положение в каком-то из Node

@@ -7,6 +7,7 @@ namespace ClassLibraryAntHill
 {
     public class Food:IDrawable,IDispose,IObjectField
     {
+        Image im;
         private int hp;
         public PointF Center { get; }
         public int Hp { get { return hp; } }
@@ -26,6 +27,7 @@ namespace ClassLibraryAntHill
 
         public Food(PointF center)
         {
+            im= Image.FromFile("../../../Photos/FullFood.png");
             hp = 100;
             this.Center = center;
         }
@@ -44,7 +46,8 @@ namespace ClassLibraryAntHill
         }
         public void Draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Green, Convert.ToSingle(this.Center.X -5), Convert.ToSingle(this.Center.Y - 5), 10, 10);
+            g.DrawImage(im, Center.X - im.Width/1.5f, Center.Y - im.Height/1.5f);
+            //g.FillEllipse(Brushes.Black, Convert.ToSingle(this.Center.X -5), Convert.ToSingle(this.Center.Y - 5), 10, 10);
         }
     }
 }

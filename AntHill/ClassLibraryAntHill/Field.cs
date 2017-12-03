@@ -24,6 +24,10 @@ namespace ClassLibraryAntHill
             }
 
         }
+        public void  NewField(int numberOfAnts)
+        {
+
+        }
         public List<IObjectField> FindObjects(float x, float y)
         {
             List<IObjectField> objects = new List<IObjectField>();
@@ -60,7 +64,8 @@ namespace ClassLibraryAntHill
                 x = rnd.Next(5, 650);
                 y = rnd.Next(5, 400);
             }
-            while (AntHills[0].isInside(x-5, y-5)&& AntHills[0].isInside(x+5, y+5));
+            while (AntHills[0].isInside(x + 100, y - 100) && AntHills[0].isInside(x - 100, y + 100) &&
+                AntHills[0].isInside(x-100, y-100)&& AntHills[0].isInside(x+100, y+100));
             Foods.Add(new Food(new PointF(x, y)) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); } });
         }
         public bool isInside(double x,double y)
@@ -79,13 +84,15 @@ namespace ClassLibraryAntHill
             {
                 BornFood();
             }
-            
+                BornFood();
+
+            BornFood();
         }
         public void Draw(Graphics g)
         {
+            AntHills.ForEach(ah => ah.Draw(g));
             Foods.ForEach(f => f.Draw(g));
             Pests.ForEach(f => f.Draw(g));
-            AntHills.ForEach(ah => ah.Draw(g));
         }
     } 
 }

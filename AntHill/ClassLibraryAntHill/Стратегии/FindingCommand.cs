@@ -7,6 +7,7 @@ namespace ClassLibraryAntHill
 {
     class FindingCommand:ICommand
     {
+        Random rnd = new Random();
         public IPlace place { get; set; }
         private Ant ant;
         private List<IObjectField> findingObjects;
@@ -16,12 +17,16 @@ namespace ClassLibraryAntHill
             place = p;
             findingObjects = new List<IObjectField>();
             findingObjects = f;
+            
+            
         }
         public bool Execute()
         {
             if (place.isInside(ant.Center.X,ant.Center.Y))
             {
+                double dAlpMax=0.5;                
                 double a = Math.Atan((ant.LastY - ant.Center.Y) / (ant.LastX - ant.Center.X));
+                a +=  rnd.NextDouble()* rnd.NextDouble() * rnd.NextDouble() *(rnd.Next(2)==0?-1:1)* dAlpMax;
                 ant.Move(Math.Cos(a) * ant.Speed, Math.Sin(a) * ant.Speed);
             }
             else
@@ -29,7 +34,7 @@ namespace ClassLibraryAntHill
                 return true;//Выход за границы
             }
             IObjectField obj = MinDictanceFood();
-            if(obj!=null)
+            if (obj != null)
             {
                 ant.SetCommand(new MovingCommand(obj.Center.X, obj.Center.Y, this.ant, obj));
             }
@@ -38,7 +43,7 @@ namespace ClassLibraryAntHill
         private IObjectField MinDictanceFood()
         {
             double dist = 300;
-           IObjectField obj = null;
+            IObjectField obj = null;
             for (int i = 0; i < findingObjects.Count; i++)
             {
                 double d = AntMath.Dist(findingObjects[i].Center, ant.Center);                  

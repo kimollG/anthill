@@ -10,10 +10,11 @@ namespace ClassLibraryAntHill
     {   
         internal bool IsBringing { get; set; }
         public WorkerAnt(float x, float y, string name) : base(x, y, name)
-        {
-            
+        {            
             IsBringing = false;
             Speed = 3;
+            imSelf = Image.FromFile("../../../Photos/smallAnt.png");
+            imFood = Image.FromFile("../../../Photos/leaf.png");
         }
        
         public override void BeAttaсked(int damage)
@@ -47,7 +48,7 @@ namespace ClassLibraryAntHill
                     else
                     if (command is FindingCommand)
                     {
-                        SetCommand(new WalkatHomeCommand(this, TypeOfNodes.storage, Home));
+                        SetCommand(new WalkatHomeCommand(this, TypeOfNodes.exit, Home));
                     }
                     else
                     {
@@ -65,7 +66,6 @@ namespace ClassLibraryAntHill
                                 }
                             }
                         }
-
                     }
                 }
 
@@ -82,6 +82,7 @@ namespace ClassLibraryAntHill
                 }
             }
         }
+        Image imSelf,imFood;
         public override void Draw(Graphics g)
         {
             double a = 180 / Math.PI * Math.Atan((this.LastY - this.Center.Y) / (this.LastX - this.Center.X));
@@ -91,15 +92,14 @@ namespace ClassLibraryAntHill
             g.RotateTransform(90);
             if (b)
                 g.RotateTransform(180);
-            var im = Image.FromFile("../../../Photos/smallAnt.png");
-            var im2 = Image.FromFile("../../../Photos/leaf.png");
-            g.DrawImage(im, new PointF(-im.Width * 0.5f, -im.Height * 0.5f));
+            
+            g.DrawImage(imSelf, new PointF(-imSelf.Width * 0.5f, -imSelf.Height * 0.5f));
             if (b)
                 g.RotateTransform(-180);
             g.RotateTransform(-90);
             if (((WorkerAnt)this).IsBringing)
             {
-                g.DrawImage(im2, new PointF(-im2.Width * 0.5f, -im2.Height * 0.5f));
+                g.DrawImage(imFood, new PointF(-imFood.Width * 0.5f, -imFood.Height * 0.5f));
             }
             else
             {
