@@ -137,8 +137,8 @@ namespace ClassLibraryAntHill
                 if (Nodes[index].r < d)
                 {
                     double a = Math.Atan((ant.LastY - ant.Center.Y) / (ant.LastX - ant.Center.X));
-                    ant.Move(Nodes[index].center.X - ant.Center.X, Nodes[index].center.Y - ant.Center.Y);
-                    ant.Move(Math.Cos(a), Math.Sin(a));
+                    ant.Move(Nodes[index].center.X - ant.Center.X, Nodes[index].center.Y - ant.Center.Y,true);
+                    ant.Move(Math.Cos(a), Math.Sin(a),true);
                 }
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace ClassLibraryAntHill
 {
@@ -11,16 +12,14 @@ namespace ClassLibraryAntHill
         public IPlace place { get; set; }
         private Ant ant;
         private List<IObjectField> findingObjects;
-        double angle;
+        double angle;        
         public FindingCommand(Ant ant,IPlace p,List<IObjectField> f,float direction)
         {
-            angle=direction;
+            angle=direction+(rnd.NextDouble()*Math.PI-Math.PI/2);
             this.ant = ant;
             place = p;
             findingObjects = new List<IObjectField>();
             findingObjects = f;
-            
-            
         }
         public bool Execute()
         {
@@ -29,7 +28,8 @@ namespace ClassLibraryAntHill
                 double dAlpMax=0.1;                
                 
                 angle +=  rnd.NextDouble()* rnd.NextDouble() * rnd.NextDouble() *(rnd.Next(2)==0?-1:1)* dAlpMax;
-                ant.Move(Math.Cos(angle) * ant.Speed, Math.Sin(angle) * ant.Speed);
+                 
+                ant.Move(Math.Cos(angle) * ant.Speed, Math.Sin(angle) * ant.Speed,true);
             }
             else
             {
