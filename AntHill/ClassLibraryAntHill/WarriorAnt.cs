@@ -14,13 +14,6 @@ namespace ClassLibraryAntHill
             Speed = 4;
             im = Image.FromFile("../../../Photos/smallAntWar.png");
         }
-
-        public override void BeAttaсked(int damage)
-        {
-            if ((Hp -= damage) <= 0)
-                disp(this);
-        }
-
         public override void Draw(Graphics g)
         {
             double a = 180 / Math.PI * Math.Atan((this.LastY - this.Center.Y) / (this.LastX - this.Center.X));
@@ -48,11 +41,12 @@ namespace ClassLibraryAntHill
                     {
                         if (((Ant)command.place).Hp > 0)
                         {
-                            ((Ant)command.place).BeAttaсked(1);
+                            ((Ant)command.place).BeAttaсked(5);
                             SetCommand(new MovingCommand(((Ant)command.place).Center.X, ((Ant)command.place).Center.Y,this, command.place));
                         }
                         else
                         {
+                            Home.OpenEnemies.RemoveAll((x) => ((Ant)x).Hp == 0);
                             SetCommand(new FindingCommand(this, new Field(), Home.OpenEnemies, Convert.ToSingle(Math.Atan2(this.Center.Y - Home.center.Y, Center.X - Home.center.X))));
                         }
                     }

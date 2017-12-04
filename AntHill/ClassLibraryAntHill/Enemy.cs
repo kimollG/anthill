@@ -9,6 +9,7 @@ namespace ClassLibraryAntHill
     public class Enemy : Ant, IObjectField, IDispose, IDrawable
     {
         public Field field { get; private set; }
+        public static List<IObjectField> findingobjects;
         public override void Draw(Graphics g)
         {
             double a = 180 / Math.PI * Math.Atan((this.LastY - this.Center.Y) / (this.LastX - this.Center.X));
@@ -26,11 +27,6 @@ namespace ClassLibraryAntHill
             Speed = 3;
             Hp = hp;
         }
-        public override void BeAttaсked(int damage)
-        {
-            if ((Hp -= damage) <= 0)
-                disp(this);
-        }
         public void setField(Field f)
         {
             if(field==null)
@@ -40,10 +36,14 @@ namespace ClassLibraryAntHill
         }
         public override void Thinking()
         {
-            field.findingobjects = field.FindAnts(Center.X, Center.Y);
+            findingobjects = field.FindAnts(Center.X, Center.Y);
+            if (command is FindingCommand)
+            {
+                ((FindingCommand)command).SetFindObjects(findingobjects);//жуткий говнокод
+            }
             if (command == null)
             {
-                SetCommand(new FindingCommand(this, field, field.findingobjects, Convert.ToSingle(Math.Atan2(this.Center.Y - this.LastY, Center.X - this.LastX))));
+                SetCommand(new FindingCommand(this, field, findingobjects, Convert.ToSingle(Math.Atan2(this.Center.Y - this.LastY, Center.X - this.LastX))));
             }
             else
             {
@@ -53,18 +53,19 @@ namespace ClassLibraryAntHill
                     {
                         if (((Ant)command.place).Hp > 0)
                         {
-                            ((Ant)command.place).BeAttaсked(1);
+                            ((Ant)command.place).BeAttaсked(5);
                             SetCommand(new MovingCommand(((Ant)command.place).Center.X, ((Ant)command.place).Center.Y, this, command.place));
                         }
                         else
                         {
-                            SetCommand(new FindingCommand(this, field, field.findingobjects, Convert.ToSingle(Math.Atan2(this.Center.Y - this.LastY, Center.X - this.LastX))));
+                            findingobjects.RemoveAll((x) => ((Ant)x).Hp == 0);
+                            SetCommand(new FindingCommand(this, field, findingobjects, Convert.ToSingle(Math.Atan2(this.Center.Y - this.LastY, Center.X - this.LastX))));
                         }
                     }
                     else
                     if (command is FindingCommand)
                     {
-                        SetCommand(new FindingCommand(this, field, field.findingobjects,-(float)((FindingCommand)command).angle));
+                        SetCommand(new FindingCommand(this, field, findingobjects,-(float)((FindingCommand)command).angle));
                     }                 
                 }
             }

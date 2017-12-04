@@ -16,12 +16,6 @@ namespace ClassLibraryAntHill
             imSelf = Image.FromFile("../../../Photos/smallAnt.png");
             imFood = Image.FromFile("../../../Photos/leaf.png");
         }
-       
-        public override void BeAttaсked(int damage)
-        {
-            if ((Hp -= damage) <= 0)
-                disp(this);
-        }
         public override void Thinking()
         {
             if (command == null)
@@ -42,6 +36,7 @@ namespace ClassLibraryAntHill
                         }
                         else
                         {
+                            Home.OpenFoods.RemoveAll((x) => ((Food)x).Hp == 0);
                             SetCommand(new FindingCommand(this, new Field(),Home.OpenFoods,Convert.ToSingle(Math.Atan2(this.Center.Y-Home.center.Y,Center.X-Home.center.X))));
                         }
                     }

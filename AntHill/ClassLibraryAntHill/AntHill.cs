@@ -102,7 +102,6 @@ namespace ClassLibraryAntHill
         public Node NearestNode(double x, double y, TypeOfNodes type)//Ближайший узел по типу
         {
             List<int> indexes = new List<int>();
-            int index = -1;
             double d = 1000000;
             for (int i = 0; i < Nodes.Count; i++)
             {
@@ -214,7 +213,7 @@ namespace ClassLibraryAntHill
             }
             else
             {
-                ant= new WarriorAnt(x, y, name) { Dispose = (a) => { Ants.Remove((Ant)a); NumberWarrors--; Totalnumber--; } };
+                ant= new WarriorAnt(x, y, name) { Dispose = (a) => { Ants.Remove((Ant)a); NumberWarrors--;Totalnumber--; } };
                 NumberWarrors++;
             }
             ant.SetHome(this);//Установить дом

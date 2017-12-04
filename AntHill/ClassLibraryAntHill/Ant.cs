@@ -71,6 +71,16 @@ namespace ClassLibraryAntHill
             double a = Math.PI * rnd.NextDouble();
             Move(Math.Cos(a), Math.Sin(a));
         }
-        public abstract void BeAttaсked(int damage);
+        public void BeAttaсked(int damage)
+        {
+            double a = -Math.Atan2(this.Center.Y - this.LastY, Center.X - this.LastX);
+            Move(Math.Cos(a)*Speed, Math.Sin(a) * Speed);
+            a = -a;
+            Move(Math.Cos(a) , Math.Sin(a));
+            if ((Hp -= damage) <= 0)
+                disp(this);
+        }
+
+
     }
 }

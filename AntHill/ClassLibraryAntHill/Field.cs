@@ -15,10 +15,8 @@ namespace ClassLibraryAntHill
         public int Numberticks { get; private set; }
         private static int TotalLength;
         private static int TotalWide;
-        public List<IObjectField> findingobjects;
         public Field(List<AntHill> aaa)
         {
-            findingobjects = new List<IObjectField>();
             AntHills = aaa;
             Numberticks = 0;
             Foods = new List<Food>();
@@ -93,7 +91,7 @@ namespace ClassLibraryAntHill
             {
                 BornFood();
             }
-            if (Numberticks % 40 == 39 && Pests.Count<1)
+            if (Numberticks % 40 == 39 )
             {
                 BornPest();
             }
