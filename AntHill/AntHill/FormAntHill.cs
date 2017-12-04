@@ -44,10 +44,12 @@ namespace AntHill
         }
         public void Draw()
         {
+            g = Graphics.FromImage(bitmap);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(Color.White);
             field.Draw(g);
             pictureBoxAntHill.Image = bitmap;
+            g.Dispose();
         }
     }
 }

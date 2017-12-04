@@ -270,7 +270,7 @@ namespace ClassLibraryAntHill
                 Random rnd = new Random();
                 int index = rnd.Next(0, Ants.Count * 3);
                 if (index < Ants.Count)
-                    Ants.RemoveAt(index);
+                    Ants[index].BeAttaсked(10000);
             }
 
 

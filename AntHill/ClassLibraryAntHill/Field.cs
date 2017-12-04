@@ -85,7 +85,7 @@ namespace ClassLibraryAntHill
             AntHills[0].Process();
             for(int i=0;i<Pests.Count;i++)
             {
-                Pests[0].Thinking();
+                Pests[i].Thinking();
             }
             if (Numberticks % 20 == 19)
             {
