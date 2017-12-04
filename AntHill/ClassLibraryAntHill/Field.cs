@@ -6,38 +6,44 @@ using System.Drawing;
 namespace ClassLibraryAntHill
 {
 
-    public class Field:IPlace
+    public class Field : IPlace
     {
-        Random rnd = new Random();
+        static Random rnd = new Random();
         public List<AntHill> AntHills { get; private set; }
         private List<Ant> Pests;
         private List<Food> Foods;
         public int Numberticks { get; private set; }
+        private static int TotalLength;
+        private static int TotalWide;
+        public List<IObjectField> findingobjects;
         public Field(List<AntHill> aaa)
         {
+            findingobjects = new List<IObjectField>();
             AntHills = aaa;
             Numberticks = 0;
             Foods = new List<Food>();
             Pests = new List<Ant>();
-            for (int i = 0; i < AntHills.Count;i++)
+            TotalLength = 650;
+            TotalWide = 400;
+            for (int i = 0; i < AntHills.Count; i++)
             {
                 AntHills[i].SetField(this);
             }
 
         }
-        public void  NewField(int numberOfAnts)
+        public List<IObjectField> FindAnts(float x, float y)
         {
-
+            return AntHills[0].GiveAnts(x, y);
         }
         public List<IObjectField> FindObjects(float x, float y)
         {
             List<IObjectField> objects = new List<IObjectField>();
             for (int j = 0; j < Foods.Count; j++)
             {
-                double d = AntMath.Dist(x,y, Foods[j].Center.X, Foods[j].Center.Y);
+                double d = AntMath.Dist(x, y, Foods[j].Center.X, Foods[j].Center.Y);
                 if (d < 50)
                 {
-                     objects.Add(Foods[j]);
+                    objects.Add(Foods[j]);
                 }
             }
             for (int j = 0; j < Pests.Count; j++)
@@ -61,15 +67,15 @@ namespace ClassLibraryAntHill
             float y;
             do
             {
-                x = rnd.Next(5, 650);
-                y = rnd.Next(5, 400);
+                x = rnd.Next(5, TotalLength);
+                y = rnd.Next(5, TotalWide);
             }
-            while (AntMath.Dist(AntHills[0].center,new PointF(x,y))<AntHills[0].radius+50);
+            while (AntMath.Dist(AntHills[0].center, new PointF(x, y)) < AntHills[0].radius + 50);
             Foods.Add(new Food(new PointF(x, y)) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); } });
         }
-        public bool isInside(double x,double y)
+        public bool isInside(double x, double y)
         {
-            if (x > 10 && x < 650 && y > 10 && y < 400)
+            if (x > 10 && x < TotalLength && y > 10 && y < TotalWide)
             {
                 return true;
             }
@@ -79,10 +85,40 @@ namespace ClassLibraryAntHill
         {
             Numberticks++;
             AntHills[0].Process();
+            for(int i=0;i<Pests.Count;i++)
+            {
+                Pests[0].Thinking();
+            }
             if (Numberticks % 20 == 19)
             {
                 BornFood();
             }
+            if (Numberticks % 40 == 39 && Pests.Count<1)
+            {
+                BornPest();
+            }
+        }
+        public void BornPest()
+        {
+
+            float x;
+            float y;
+            x = rnd.Next(0, TotalLength);
+            y = rnd.Next(0, TotalWide);
+           int z = rnd.Next(0, 2);
+            if(z==0)
+            {
+                x = Math.Abs(rnd.Next(0, 2) * TotalLength - 20);
+            }
+            else
+            {
+                y = Math.Abs(rnd.Next(0, 2) * TotalWide - 20);
+            }
+            Enemy pest;
+            pest = new Enemy(100, new PointF(x, y) ) { Dispose = (a) => { Pests.Remove((Ant)a); } };
+            pest.SetHome(null);//Установить дом
+            pest.setField(this);//Установить поле
+            Pests.Add(pest);
         }
         public void Draw(Graphics g)
         {
@@ -90,5 +126,5 @@ namespace ClassLibraryAntHill
             Foods.ForEach(f => f.Draw(g));
             Pests.ForEach(f => f.Draw(g));
         }
-    } 
+    }
 }

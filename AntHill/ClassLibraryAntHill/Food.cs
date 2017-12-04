@@ -47,7 +47,7 @@ namespace ClassLibraryAntHill
         public void Draw(Graphics g)
         {
             g.DrawImage(im, Center.X - im.Width/1.5f, Center.Y - im.Height/1.5f);
-            g.FillEllipse(Brushes.Red, Convert.ToSingle(this.Center.X -1), Convert.ToSingle(this.Center.Y - 1), 2, 2);
+           // g.FillEllipse(Brushes.Red, Convert.ToSingle(this.Center.X -1), Convert.ToSingle(this.Center.Y - 1), 2, 2);
         }
     }
 }

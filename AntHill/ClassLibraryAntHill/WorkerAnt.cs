@@ -80,6 +80,13 @@ namespace ClassLibraryAntHill
                         Home.OpenFoods.Add(list[i]);
                     }
                 }
+                if (list[i] is Ant)
+                {
+                    if (!Home.OpenEnemies.Exists(x => x == list[i]))
+                    {
+                        Home.OpenEnemies.Add(list[i]);
+                    }
+                }
             }
         }
         Image imSelf,imFood;

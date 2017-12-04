@@ -11,12 +11,10 @@ namespace ClassLibraryAntHill
         public double Y { get; private set; }
         public IPlace place { get; set; }
         private Ant ant;
-        bool isInsideAnthill;
         public MovingCommand(double x,double y, Ant ant, IPlace p)
         {
             X = x;
-            Y = y;
-            isInsideAnthill = ant.Home.isInside(ant.Center.X, ant.Center.Y);
+            Y = y;           
             place = p;
             this.ant = ant;
         }
@@ -31,10 +29,10 @@ namespace ClassLibraryAntHill
             {
                 double a = Math.Atan((Y - ant.Center.Y) / (X - ant.Center.X));
                 if (ant.Center.X >= X)
-                    ant.Move(-Math.Cos(a) * ant.Speed, -Math.Sin(a) * ant.Speed,isInsideAnthill);
+                    ant.Move(-Math.Cos(a) * ant.Speed, -Math.Sin(a) * ant.Speed);
                 else
                 {
-                    ant.Move(Math.Cos(a) * ant.Speed, Math.Sin(a) * ant.Speed,isInsideAnthill);
+                    ant.Move(Math.Cos(a) * ant.Speed, Math.Sin(a) * ant.Speed);
                 }
             }
             return false;

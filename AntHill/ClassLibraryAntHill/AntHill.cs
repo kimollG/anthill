@@ -94,6 +94,7 @@ namespace ClassLibraryAntHill
                 field = f;
             }
         }
+
         public void GiveFood()//Увеличение еды
         {
             Food += 100;
@@ -137,10 +138,24 @@ namespace ClassLibraryAntHill
                 if (Nodes[index].r < d)
                 {
                     double a = Math.Atan((ant.LastY - ant.Center.Y) / (ant.LastX - ant.Center.X));
-                    ant.Move(Nodes[index].center.X - ant.Center.X, Nodes[index].center.Y - ant.Center.Y,true);
-                    ant.Move(Math.Cos(a), Math.Sin(a),true);
+                    ant.Move(Nodes[index].center.X - ant.Center.X, Nodes[index].center.Y - ant.Center.Y);
+                    ant.Move(Math.Cos(a), Math.Sin(a));
                 }
             }
+        }
+        public List<IObjectField> GiveAnts(float x, float y)//Для вредителей
+        {
+            List<IObjectField> objects = new List<IObjectField>();
+            for (int j = 0; j < Ants.Count; j++)
+            {
+                double d = AntMath.Dist(x, y, Ants[j].Center.X, Ants[j].Center.Y);
+                if (d < 50)
+                {
+                    objects.Add(Ants[j]);
+                }
+            }
+            
+            return objects;
         }
         public Node FindingNode(Ant ant)//Узел ,в котором муравей, всё по координатам
         {
@@ -194,12 +209,12 @@ namespace ClassLibraryAntHill
             Ant ant;
             if (NumberWorkers <= 2 * NumberWarrors)
             {
-                ant = new WorkerAnt(x, y, name) { Dispose = (a) => Ants.Remove((Ant)a) };
+                ant = new WorkerAnt(x, y, name) { Dispose = (a) => { Ants.Remove((Ant)a); NumberWorkers--; Totalnumber--; } };
                 NumberWorkers++;
             }
             else
             {
-                ant= new WarriorAnt(x, y, name) { Dispose = (a) => Ants.Remove((Ant)a) };//Воин должен быть!!!
+                ant= new WarriorAnt(x, y, name) { Dispose = (a) => { Ants.Remove((Ant)a); NumberWarrors--; Totalnumber--; } };
                 NumberWarrors++;
             }
             ant.SetHome(this);//Установить дом

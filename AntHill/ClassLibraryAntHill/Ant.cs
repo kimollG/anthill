@@ -17,7 +17,7 @@ namespace ClassLibraryAntHill
         public double LastY { get { return ly; } }
         private string name;
         public int Hp { get; protected set; }
-        public int Speed { get; set; }
+        public int Speed { get;  set; }
         public abstract void Thinking();
         protected DisposeMethod disp;
         public AntHill Home { get; private set; }
@@ -35,7 +35,7 @@ namespace ClassLibraryAntHill
         }
         public bool isInside(double x, double y)
         {
-            if (Math.Abs(Center.X - x) < 5 && Math.Abs(Center.Y - x) < 5)
+            if (AntMath.Dist(x,y,center.X,center.Y)< 5)
             {
                 return false;
             }
@@ -45,28 +45,13 @@ namespace ClassLibraryAntHill
         {
             command = s;
         }
-        public void Move(double dx, double dy,bool isInsideAntHill)
+        public void Move(double dx, double dy)
         {
-            if (!isInsideAntHill&&Home.isInside(center.X + dx, center.Y + dy))
-            {
-                if (Home.isInside(center.X + dy, center.Y - dx))
-                {
-                    center.X += Convert.ToSingle(dy);
-                    center.Y -= Convert.ToSingle(dx);
-                }
-                else
-                {
-                    center.X -= Convert.ToSingle(dy);
-                    center.Y += Convert.ToSingle(dx);
-                }
-            }
-            else
-            {
+
                 lx = center.X;
                 ly = center.Y;
                 center.X = center.X + Convert.ToSingle(dx);
                 center.Y = center.Y + Convert.ToSingle(dy);
-            }
         }
         private static Random rnd= new Random();
         public Ant(float x ,float y,string name)
@@ -75,17 +60,16 @@ namespace ClassLibraryAntHill
             center.Y = y;
             
             Hp = 100;
-            //commands = new List<Command>();
             this.name = name;
         }
-        internal void SetHome(AntHill home)//Типа одиночки
+        internal virtual void SetHome(AntHill home)//Типа одиночки
         {
             if(Home==null)
             {
                 Home = home;
             }
             double a = Math.PI * rnd.NextDouble();
-            Move(Math.Cos(a), Math.Sin(a),true);
+            Move(Math.Cos(a), Math.Sin(a));
         }
         public abstract void BeAttaсked(int damage);
     }

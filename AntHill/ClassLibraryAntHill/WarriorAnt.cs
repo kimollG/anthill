@@ -44,7 +44,19 @@ namespace ClassLibraryAntHill
             {
                 if (command.Execute())
                 {
-                
+                    if (command is MovingCommand)
+                    {
+                        if (((Ant)command.place).Hp > 0)
+                        {
+                            ((Ant)command.place).BeAttaсked(1);
+                            SetCommand(new MovingCommand(((Ant)command.place).Center.X, ((Ant)command.place).Center.Y,this, command.place));
+                        }
+                        else
+                        {
+                            SetCommand(new FindingCommand(this, new Field(), Home.OpenEnemies, Convert.ToSingle(Math.Atan2(this.Center.Y - Home.center.Y, Center.X - Home.center.X))));
+                        }
+                    }
+                    else
                     if (command is FindingCommand)
                     {
                         SetCommand(new WalkatHomeCommand(this, TypeOfNodes.militaryroom, Home));                     
@@ -58,6 +70,17 @@ namespace ClassLibraryAntHill
                         {
                             SetCommand(new WalkatHomeCommand(this, TypeOfNodes.exit, new Field()));
                         }
+                    }
+                }
+            }
+            List<IObjectField> list = Home.field.FindObjects(Center.X, Center.Y);
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] is Ant)
+                {
+                    if (!Home.OpenEnemies.Exists(x => x == list[i]))
+                    {
+                        Home.OpenEnemies.Add(list[i]);
                     }
                 }
             }
