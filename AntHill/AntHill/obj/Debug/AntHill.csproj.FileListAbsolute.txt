@@ -38,3 +38,13 @@ C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\AntHill\obj\Debug\AntHill.
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\AntHill\obj\Debug\AntHill.FormAntHill.resources
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\AntHill\obj\Debug\AntHill.Properties.Resources.resources
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\AntHill\obj\Debug\AntHill.csproj.GenerateResource.Cache
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\obj\Debug\AntHill.exe
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\obj\Debug\AntHill.pdb
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\bin\Debug\AntHill.exe
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\bin\Debug\AntHill.pdb
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\bin\Debug\ClassLibraryAntHill.dll
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\bin\Debug\ClassLibraryAntHill.pdb
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\obj\Debug\AntHill.csprojResolveAssemblyReference.cache
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\obj\Debug\AntHill.FormAntHill.resources
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\obj\Debug\AntHill.Properties.Resources.resources
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\AntHill\obj\Debug\AntHill.csproj.GenerateResource.Cache

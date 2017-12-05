@@ -18,3 +18,8 @@ C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\bin\De
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.dll
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.pdb
 C:\Users\bereg\Desktop\anthill-master\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.csprojResolveAssemblyReference.cache
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\ClassLibraryAntHill\bin\Debug\ClassLibraryAntHill.dll
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\ClassLibraryAntHill\bin\Debug\ClassLibraryAntHill.pdb
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.csprojResolveAssemblyReference.cache
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.dll
+C:\Users\Макс\Documents\GitHub\anthill\AntHill\ClassLibraryAntHill\obj\Debug\ClassLibraryAntHill.pdb
