@@ -7,8 +7,7 @@ using System.Text;
 namespace ClassLibraryAntHill
 {
     public class Enemy : Ant, IObjectField, IDispose, IDrawable
-    {
-        public ImageFlyweight ImageFlyWeight { get; set; }
+    {        
         public Field field { get; private set; }
         public List<IObjectField> findingobjects;
         public override void Draw(Graphics g)
