@@ -16,8 +16,21 @@ namespace ClassLibraryAntHill
             place = p;
             this.ant = ant;
         }
+        private void ChangeAngle()
+        {
+            if (ant is WarriorAnt || ant is WorkerAnt)
+            {
+                IObjectField pl = ant.Home.FindingNode(ant);
+                if (pl!=null && !pl.isInside(ant.Center.X, ant.Center.Y))
+                {
+                    double a = Math.Atan((Y - ant.Center.Y) / (X - ant.Center.X));
+                    ant.SetCommand(new FindingCommand(ant, place, ((Enemy)ant).findingobjects, (float)a));
+                }
+            }
+        }
         public bool Execute()
         {
+            ChangeAngle();
             X = place.Center.X;
             Y = place.Center.Y;
             double d = AntMath.Dist(X, Y, ant.Center.X, ant.Center.Y);

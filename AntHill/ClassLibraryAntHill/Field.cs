@@ -93,7 +93,7 @@ namespace ClassLibraryAntHill
             {
                 BornFood();
             }
-            if (Numberticks % 40 == 39 )
+            if (Numberticks % 40 == 39 &&Pests.Count<5)
             {
                 BornPest();
             }

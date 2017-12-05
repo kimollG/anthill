@@ -31,9 +31,9 @@ namespace AntHill
         int indexname=0;
         private void buttonEnter_Click(object sender, EventArgs e)
         {
-            int n = 0;
+            int n = -1;
             int.TryParse(textBoxCount.Text, out n);
-            if (n != 0)
+            if (n >=0)
             {
                 builder = new MyBuilderAntHill(new PointF(400, 200), 100,n);
                 List<ClassLibraryAntHill.AntHill> anthills = new List<ClassLibraryAntHill.AntHill>();

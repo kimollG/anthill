@@ -35,7 +35,7 @@ namespace ClassLibraryAntHill
         }
         public bool isInside(double x, double y)
         {
-            if (x < Center.X + r && x > Center.X - r && y < Center.Y + r && y > Center.Y - r)
+            if (AntMath.Dist(x, y, Center.X, Center.Y)< r)
             {
                 return true;
             }
@@ -290,7 +290,7 @@ namespace ClassLibraryAntHill
         }
         public bool isInside(double x, double y)//Принадлежность муравейнику
         {
-            if ((x-Center.X)* (x - Center.X) + (y - Center.Y)*(y - Center.Y) <radius*radius)
+            if (AntMath.Dist(x,y,Center.X,Center.Y )<radius)
             {
                 return true;
             }

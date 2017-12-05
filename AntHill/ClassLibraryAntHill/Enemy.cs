@@ -9,7 +9,7 @@ namespace ClassLibraryAntHill
     public class Enemy : Ant, IObjectField, IDispose, IDrawable
     {
         public Field field { get; private set; }
-        public static List<IObjectField> findingobjects;
+        public List<IObjectField> findingobjects;
         public override void Draw(Graphics g)
         {
             double a = 180 / Math.PI * Math.Atan((this.LastY - this.Center.Y) / (this.LastX - this.Center.X));
@@ -39,7 +39,7 @@ namespace ClassLibraryAntHill
             findingobjects = field.FindAnts(Center.X, Center.Y);
             if (command is FindingCommand)
             {
-                ((FindingCommand)command).SetFindObjects(findingobjects);//жуткий говнокод
+                ((FindingCommand)command).SetFindObjects(findingobjects);
             }
             if (command == null)
             {
@@ -54,7 +54,7 @@ namespace ClassLibraryAntHill
                         if (((Ant)command.place).Hp > 0)
                         {
                             ((Ant)command.place).BeAttaсked(5);
-                            SetCommand(new MovingCommand(this, command.place));
+                            SetCommand(new MovingCommand( this, command.place));
                         }
                         else
                         {
