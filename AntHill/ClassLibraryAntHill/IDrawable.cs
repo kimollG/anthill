@@ -8,6 +8,7 @@ namespace ClassLibraryAntHill
 {
     public interface IDrawable
     {
+        ImageFlyweight ImageFlyWeight { get; set; }
         void Draw(Graphics g);
     }
 }

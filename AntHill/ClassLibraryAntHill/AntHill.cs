@@ -64,6 +64,9 @@ namespace ClassLibraryAntHill
     }
     public class AntHill : IObjectField
     {
+        ImageFlyweight workerImage = new ImageFlyweight(Image.FromFile("../../../Photos/smallAnt.png"));
+        ImageFlyweight warriorImage = new ImageFlyweight(Image.FromFile("../../../Photos/smallAntWar.png"));
+        ImageFlyweight CarringFoodImage = new ImageFlyweight(Image.FromFile("../../../Photos/leaf.png"));        
         public PointF Center { get; private set; }
         public float radius { get; private set; }
         public int Food { get; private set; }
@@ -75,7 +78,7 @@ namespace ClassLibraryAntHill
         private int NumberWorkers = 0;
         private int NumberWarrors = 0;
         public Field field { get; private set; }
-
+  
         public AntHill(PointF center, List<Node> N, float rad, int n)
         {
             Ants = new List<Ant>();
@@ -209,12 +212,12 @@ namespace ClassLibraryAntHill
             Ant ant;
             if (NumberWorkers <= 2 * NumberWarrors)
             {
-                ant = new WorkerAnt(x, y, name) { Dispose = (a) => { Ants.Remove((Ant)a); NumberWorkers--; Totalnumber--; } };
+                ant = new WorkerAnt(x, y, name) { Dispose = (a) => { Ants.Remove((Ant)a); NumberWorkers--; Totalnumber--; },ImageFlyWeight=workerImage,FoodImageFlyweight=CarringFoodImage };
                 NumberWorkers++;
             }
             else
             {
-                ant= new WarriorAnt(x, y, name) { Dispose = (a) => { Ants.Remove((Ant)a); NumberWarrors--;Totalnumber--; } };
+                ant= new WarriorAnt(x, y, name) { Dispose = (a) => { Ants.Remove((Ant)a); NumberWarrors--;Totalnumber--; } ,ImageFlyWeight=warriorImage};
                 NumberWarrors++;
             }
             ant.SetHome(this);//Установить дом

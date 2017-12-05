@@ -8,19 +8,27 @@ namespace ClassLibraryAntHill
 {
     public class Enemy : Ant, IObjectField, IDispose, IDrawable
     {
+        public ImageFlyweight ImageFlyWeight { get; set; }
         public Field field { get; private set; }
         public static List<IObjectField> findingobjects;
         public override void Draw(Graphics g)
         {
+            Image imSelf = ImageFlyWeight.GetImage;
             double a = 180 / Math.PI * Math.Atan((this.LastY - this.Center.Y) / (this.LastX - this.Center.X));
+            g.TranslateTransform(Convert.ToSingle(this.Center.X - 4), Convert.ToSingle(this.Center.Y - 4));
+            g.RotateTransform(Convert.ToSingle(a));
             bool b = this.LastX > this.Center.X;
+            g.RotateTransform(90);
+            if (b)
+                g.RotateTransform(180);
 
-            g.TranslateTransform(Convert.ToSingle(this.Center.X - 12), Convert.ToSingle(this.Center.Y - 20));
-            g.RotateTransform(Convert.ToSingle(a) + 90 + (b ? 180 : 0));
-            g.FillEllipse(Brushes.Chocolate, - 6,- 10, 12, 20);
-            g.RotateTransform(-Convert.ToSingle(a) - 90 - (b ? 180 : 0));
-            g.TranslateTransform(-Convert.ToSingle(this.Center.X - 12), -Convert.ToSingle(this.Center.Y - 20));
-
+            g.DrawImage(imSelf, new PointF(-imSelf.Width * 0.5f, -imSelf.Height * 0.5f));
+            if (b)
+                g.RotateTransform(-180);
+            g.RotateTransform(-90);
+            
+            g.RotateTransform(-Convert.ToSingle(a));
+            g.TranslateTransform(-Convert.ToSingle(this.Center.X - 4), -Convert.ToSingle(this.Center.Y - 4));
         }
         public Enemy(int hp, PointF c) : base(c.X, c.Y, "")
         {

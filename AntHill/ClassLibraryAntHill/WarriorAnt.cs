@@ -7,15 +7,14 @@ using System.Text;
 namespace ClassLibraryAntHill
 {
     class WarriorAnt : Ant
-    {
-        Image im;
+    {        
         public WarriorAnt(float x, float y, string name) : base(x, y, name)
         {
-            Speed = 4;
-            im = Image.FromFile("../../../Photos/smallAntWar.png");
+            Speed = 4;            
         }
         public override void Draw(Graphics g)
         {
+            Image im = ImageFlyWeight.GetImage;
             double a = 180 / Math.PI * Math.Atan((this.LastY - this.Center.Y) / (this.LastX - this.Center.X));
             bool b = this.LastX > this.Center.X;
 
