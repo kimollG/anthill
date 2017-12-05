@@ -11,6 +11,7 @@ namespace ClassLibraryAntHill
         public abstract void Draw(Graphics g);
         internal ICommand command;
         private PointF center;
+        public bool AtHome { get; set; }
         public PointF Center { get { return center; } }
         private double lx, ly;
         public double LastX { get { return lx; } }
@@ -58,7 +59,7 @@ namespace ClassLibraryAntHill
         {
             center.X = x;
             center.Y = y;
-            
+            AtHome = true;
             Hp = 100;
             this.name = name;
         }
@@ -73,10 +74,10 @@ namespace ClassLibraryAntHill
         }       
         public void BeAttaсked(int damage)
         {
-            double a = -Math.Atan2(this.Center.Y - this.LastY, Center.X - this.LastX);
+           /* double a = -Math.Atan2(this.Center.Y - this.LastY, Center.X - this.LastX);
             Move(Math.Cos(a)*Speed, Math.Sin(a) * Speed);
             a = -a;
-            Move(Math.Cos(a) , Math.Sin(a));
+            Move(Math.Cos(a) , Math.Sin(a));*/
             if ((Hp -= damage) <= 0)
                 disp(this);
         }

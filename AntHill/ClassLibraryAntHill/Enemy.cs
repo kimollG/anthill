@@ -51,7 +51,7 @@ namespace ClassLibraryAntHill
                 {
                     if (command is MovingCommand)
                     {
-                        if (((Ant)command.place).Hp > 0)
+                        if (command.place is Ant && ((Ant)command.place).Hp > 0)
                         {
                             ((Ant)command.place).BeAttaсked(5);
                             SetCommand(new MovingCommand( this, command.place));

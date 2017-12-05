@@ -41,6 +41,7 @@ namespace ClassLibraryAntHill
             if (actions[0].Execute())
             {
                 actions.RemoveAt(0);
+                ant.AtHome = true;
             }
             return false;
         }

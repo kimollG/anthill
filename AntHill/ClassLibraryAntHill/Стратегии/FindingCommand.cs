@@ -69,32 +69,28 @@ namespace ClassLibraryAntHill
                 if (ant is Enemy)
                 {
                     pl = ((Enemy)ant).field.AntHills[0];
-                }
-                else
-                {
-                    pl = ant.Home;
-                }
-                if (AntMath.Dist(ant.Center,pl.Center)<pl.radius+20)
-                {
-                    step = ant.Speed/(pl.radius+20);
-                    lastangle = angle;
-                    lastpos = ant.Center;
-                    double a = Math.Atan2(ant.Center.Y-pl.Center.Y,ant.Center.X- pl.Center.X);
-                    angle -= Math.PI/2 +a;
-                    if(Math.Cos(lastangle-angle)<0)
+                    if (AntMath.Dist(ant.Center, pl.Center) < pl.radius + 20)
                     {
-                        angle += Math.PI;
-                        step = -step;
+                        step = ant.Speed / (pl.radius + 20);
+                        lastangle = angle;
+                        lastpos = ant.Center;
+                        double a = Math.Atan2(ant.Center.Y - pl.Center.Y, ant.Center.X - pl.Center.X);
+                        angle = -Math.PI / 2 + a;
+                        if (Math.Cos(lastangle - angle) < 0)
+                        {
+                            angle += Math.PI;
+                            step = -step;
+                        }
+                        double difangle = Math.Abs(lastangle - a);
+                        len = 2 * (pl.radius + 20) * Math.Abs(Math.Cos(difangle));
                     }
-                     double difangle = Math.Abs(lastangle-a);
-                     len = 2*(pl.radius + 20) *Math.Abs( Math.Cos(difangle));
                 }
             }
         }
         private void TurnAngle()
         {
             ChangeAngle();
-            angle += step;
+            angle -= step;
             if(step != 0 && AntMath.Dist(ant.Center,lastpos)>len)
             {
                 step = 0;
