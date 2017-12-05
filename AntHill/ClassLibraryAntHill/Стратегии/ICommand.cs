@@ -7,7 +7,7 @@ namespace ClassLibraryAntHill
 {
     interface ICommand
     {
-        IPlace place { get; set; }
+        IObjectField place { get; set; }
         bool Execute();
     }
 }

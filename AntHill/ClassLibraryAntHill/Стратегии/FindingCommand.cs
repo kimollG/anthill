@@ -9,11 +9,11 @@ namespace ClassLibraryAntHill
     class FindingCommand:ICommand
     {
         Random rnd = new Random();
-        public IPlace place { get; set; }
+        public IObjectField place { get; set; }
         private Ant ant;
         private List<IObjectField> findingObjects;
         public double angle { get; private set; }        
-        public FindingCommand(Ant ant,IPlace p,List<IObjectField> f,float direction)
+        public FindingCommand(Ant ant, IObjectField p,List<IObjectField> f,float direction)
         {
             angle=direction+(rnd.NextDouble()*Math.PI-Math.PI/2);
             this.ant = ant;
@@ -73,7 +73,7 @@ namespace ClassLibraryAntHill
             IObjectField obj = MinDictance();
             if (obj != null)
             {
-                ant.SetCommand(new MovingCommand(obj.Center.X, obj.Center.Y, this.ant, obj));
+                ant.SetCommand(new MovingCommand(this.ant, obj));
             }
             return false;
         }

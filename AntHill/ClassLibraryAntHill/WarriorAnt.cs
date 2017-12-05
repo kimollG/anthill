@@ -42,12 +42,12 @@ namespace ClassLibraryAntHill
                         if (((Ant)command.place).Hp > 0)
                         {
                             ((Ant)command.place).BeAttaсked(5);
-                            SetCommand(new MovingCommand(((Ant)command.place).Center.X, ((Ant)command.place).Center.Y,this, command.place));
+                            SetCommand(new MovingCommand(this, command.place));
                         }
                         else
                         {
                             Home.OpenEnemies.RemoveAll((x) => ((Ant)x).Hp == 0);
-                            SetCommand(new FindingCommand(this, new Field(), Home.OpenEnemies, Convert.ToSingle(Math.Atan2(this.Center.Y - Home.center.Y, Center.X - Home.center.X))));
+                            SetCommand(new FindingCommand(this, new Field(), Home.OpenEnemies, Convert.ToSingle(Math.Atan2(this.Center.Y - Home.Center.Y, Center.X - Home.Center.X))));
                         }
                     }
                     else
@@ -59,7 +59,7 @@ namespace ClassLibraryAntHill
                     if (command is WalkatHomeCommand)
                     {
                         if (command.place is Field)
-                            SetCommand(new FindingCommand(this, new Field(), Home.OpenEnemies, Convert.ToSingle(Math.Atan2(this.Center.Y - Home.center.Y, Center.X - Home.center.X))));
+                            SetCommand(new FindingCommand(this, new Field(), Home.OpenEnemies, Convert.ToSingle(Math.Atan2(this.Center.Y - Home.Center.Y, Center.X - Home.Center.X))));
                         else
                         {
                             SetCommand(new WalkatHomeCommand(this, TypeOfNodes.exit, new Field()));

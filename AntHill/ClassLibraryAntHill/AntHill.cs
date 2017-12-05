@@ -16,17 +16,18 @@ namespace ClassLibraryAntHill
         larvae,//личинки
         exit,
     }
-    public class Node : IPlace
+    public class Node : IObjectField
     {
         Random rnd = new Random();
-        public PointF center { get; private set; }
+
+        public PointF Center { get; private set; }
         public List<Edge> Edges;
         public TypeOfNodes type { get; private set; }
         public bool visit;
         public float r { get; private set; }
         public Node(PointF point, TypeOfNodes type, List<Edge> Edges, float r)
         {
-            this.center = point;
+            this.Center = point;
             this.type = type;
             this.Edges = Edges;
             visit = false;
@@ -34,14 +35,14 @@ namespace ClassLibraryAntHill
         }
         public bool isInside(double x, double y)
         {
-            if (x < center.X + r && x > center.X - r && y < center.Y + r && y > center.Y - r)
+            if (x < Center.X + r && x > Center.X - r && y < Center.Y + r && y > Center.Y - r)
             {
                 return true;
             }
             return false;
         }
     }
-    public class Edge : IPlace
+    public class Edge 
     {
         public Node followignode { get; private set; }
         public float r { get; private set; }
@@ -54,16 +55,16 @@ namespace ClassLibraryAntHill
         }
         public bool isInside(double x, double y)
         {
-            if (x > followignode.center.X && y > followignode.center.Y)
+            if (x > followignode.Center.X && y > followignode.Center.Y)
             {
                 return true;
             }
             return false;
         }
     }
-    public class AntHill : IPlace
+    public class AntHill : IObjectField
     {
-        public PointF center { get; private set; }
+        public PointF Center { get; private set; }
         public float radius { get; private set; }
         public int Food { get; private set; }
         public List<Node> Nodes { get; private set; }
@@ -84,7 +85,7 @@ namespace ClassLibraryAntHill
             OpenEnemies = new List<IObjectField>();
             Nodes = N;
             radius = rad;
-            this.center = center;
+            this.Center = center;
             CreateAnts(n);
         }
         public void SetField(Field f)
@@ -107,7 +108,7 @@ namespace ClassLibraryAntHill
             {
                 if (type == Nodes[i].type)
                 {
-                    double d1 = Math.Sqrt((Nodes[i].center.X - x) * (Nodes[i].center.X - x) + (Nodes[i].center.Y - y) * (Nodes[i].center.Y - y));
+                    double d1 = Math.Sqrt((Nodes[i].Center.X - x) * (Nodes[i].Center.X - x) + (Nodes[i].Center.Y - y) * (Nodes[i].Center.Y - y));
                     if (d1 < d)
                     {
                         d = d1;
@@ -126,7 +127,7 @@ namespace ClassLibraryAntHill
                 for (int i = 0; i < Nodes.Count; i++)
                 {
 
-                    double d1 = AntMath.Dist(Nodes[i].center, ant.Center);
+                    double d1 = AntMath.Dist(Nodes[i].Center, ant.Center);
                     if (d1 < d)
                     {
                         d = d1;
@@ -137,7 +138,7 @@ namespace ClassLibraryAntHill
                 if (Nodes[index].r < d)
                 {
                     double a = Math.Atan((ant.LastY - ant.Center.Y) / (ant.LastX - ant.Center.X));
-                    ant.Move(Nodes[index].center.X - ant.Center.X, Nodes[index].center.Y - ant.Center.Y);
+                    ant.Move(Nodes[index].Center.X - ant.Center.X, Nodes[index].Center.Y - ant.Center.Y);
                     ant.Move(Math.Cos(a), Math.Sin(a));
                 }
             }
@@ -167,7 +168,7 @@ namespace ClassLibraryAntHill
                 for (int i = 0; i < Nodes.Count; i++)
                 {
 
-                    double d1 = Math.Sqrt((Nodes[i].center.X - x) * (Nodes[i].center.X - x) + (Nodes[i].center.Y - y) * (Nodes[i].center.Y - y));
+                    double d1 = Math.Sqrt((Nodes[i].Center.X - x) * (Nodes[i].Center.X - x) + (Nodes[i].Center.Y - y) * (Nodes[i].Center.Y - y));
                     if (d1 < d)
                     {
                         d = d1;
@@ -201,8 +202,8 @@ namespace ClassLibraryAntHill
             float y;
             do
             { 
-                x = rnd.Next((int)(center.X - radius), (int)(center.X + radius));
-                y = rnd.Next((int)(center.Y - radius), (int)(center.Y + radius));
+                x = rnd.Next((int)(Center.X - radius), (int)(Center.X + radius));
+                y = rnd.Next((int)(Center.Y - radius), (int)(Center.Y + radius));
             }
             while (!isInside(x, y));
             Ant ant;
@@ -233,7 +234,7 @@ namespace ClassLibraryAntHill
         {
             list2.Add(firstnode);
             firstnode.visit = true;
-            if (firstnode.center.Equals(finishnode.center))
+            if (firstnode.Center.Equals(finishnode.Center))
             {
                 if (d < dist)
                 {
@@ -245,9 +246,9 @@ namespace ClassLibraryAntHill
             {
                 if (firstnode.Edges[i].followignode.visit == false)
                 {
-                    double x = firstnode.Edges[i].followignode.center.X;
-                    double y = firstnode.Edges[i].followignode.center.Y;
-                    double dd = Math.Sqrt((firstnode.center.X - x) * (firstnode.center.X - x) + (firstnode.center.Y - y) * (firstnode.center.Y - y));
+                    double x = firstnode.Edges[i].followignode.Center.X;
+                    double y = firstnode.Edges[i].followignode.Center.Y;
+                    double dd = Math.Sqrt((firstnode.Center.X - x) * (firstnode.Center.X - x) + (firstnode.Center.Y - y) * (firstnode.Center.Y - y));
                     Deicstra(firstnode.Edges[i].followignode, finishnode, d + dd);
                     list2.RemoveAt(list2.Count - 1);
                 }
@@ -289,7 +290,7 @@ namespace ClassLibraryAntHill
         }
         public bool isInside(double x, double y)//Принадлежность муравейнику
         {
-            if ((x-center.X)* (x - center.X) + (y - center.Y)*(y - center.Y) <radius*radius)
+            if ((x-Center.X)* (x - Center.X) + (y - Center.Y)*(y - Center.Y) <radius*radius)
             {
                 return true;
             }
@@ -297,7 +298,7 @@ namespace ClassLibraryAntHill
         }
         public void Draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Black, center.X - radius, center.Y - radius, 2 * radius, 2 * radius);
+            g.FillEllipse(Brushes.Black, Center.X - radius, Center.Y - radius, 2 * radius, 2 * radius);
             bool ok = true;
             int count = 0;
             for (int i = 0; i < Nodes.Count; i++)
@@ -309,7 +310,7 @@ namespace ClassLibraryAntHill
             }
             for (int i = 0; i < Nodes.Count; i++)
             {
-                PointF point = Nodes[i].center;
+                PointF point = Nodes[i].Center;
                 float r = Nodes[i].r;
                 g.FillEllipse(Brushes.White, point.X - r, point.Y - r, 2 * r, 2 * r);
                 if (Nodes[i].type == TypeOfNodes.storage)
@@ -354,7 +355,7 @@ namespace ClassLibraryAntHill
                 for (int j = 0; j < Nodes[i].Edges.Count; j++)
                 {
                     float rad = Nodes[i].Edges[j].r;
-                    g.DrawLine(new Pen(Color.White, rad), point.X, point.Y, Nodes[i].Edges[j].followignode.center.X, Nodes[i].Edges[j].followignode.center.Y);
+                    g.DrawLine(new Pen(Color.White, rad), point.X, point.Y, Nodes[i].Edges[j].followignode.Center.X, Nodes[i].Edges[j].followignode.Center.Y);
                 }
             }
             Clear();

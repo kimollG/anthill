@@ -6,7 +6,7 @@ using System.Drawing;
 namespace ClassLibraryAntHill
 {
 
-    public class Field : IPlace
+    public class Field : IObjectField
     {
         static Random rnd = new Random();
         public List<AntHill> AntHills { get; private set; }
@@ -15,6 +15,7 @@ namespace ClassLibraryAntHill
         public int Numberticks { get; private set; }
         private static int TotalLength;
         private static int TotalWide;
+        public PointF Center { get; private set; }
         public Field(List<AntHill> aaa)
         {
             AntHills = aaa;
@@ -23,6 +24,7 @@ namespace ClassLibraryAntHill
             Pests = new List<Ant>();
             TotalLength = 650;
             TotalWide = 400;
+            Center = new PointF(TotalLength / 2, TotalWide / 2);
             for (int i = 0; i < AntHills.Count; i++)
             {
                 AntHills[i].SetField(this);
@@ -68,7 +70,7 @@ namespace ClassLibraryAntHill
                 x = rnd.Next(5, TotalLength);
                 y = rnd.Next(5, TotalWide);
             }
-            while (AntMath.Dist(AntHills[0].center, new PointF(x, y)) < AntHills[0].radius + 50);
+            while (AntMath.Dist(AntHills[0].Center, new PointF(x, y)) < AntHills[0].radius + 50);
             Foods.Add(new Food(new PointF(x, y)) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); } });
         }
         public bool isInside(double x, double y)

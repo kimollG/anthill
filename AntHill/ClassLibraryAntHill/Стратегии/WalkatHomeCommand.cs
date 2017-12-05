@@ -7,11 +7,11 @@ namespace ClassLibraryAntHill
 {
     class WalkatHomeCommand : ICommand
     {
-        public IPlace place { get; set; }
+        public IObjectField place { get; set; }
         public TypeOfNodes type { get; set; }
         private Ant ant;
         private List<ICommand> actions;
-        public WalkatHomeCommand( Ant ant, TypeOfNodes p,IPlace place)
+        public WalkatHomeCommand( Ant ant, TypeOfNodes p, IObjectField place)
         {
             type = p;
             this.ant = ant;
@@ -31,7 +31,7 @@ namespace ClassLibraryAntHill
             Nodes = ant.Home.Deicstra(first, finish);
             for (int i = 0; i < Nodes.Count; i++)
             {
-                actions.Add(new MovingCommand(Nodes[i].center.X, Nodes[i].center.Y, ant, Nodes[i]));
+                actions.Add(new MovingCommand( ant, Nodes[i]));
             }
         }
         public bool Execute()

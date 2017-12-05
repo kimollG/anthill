@@ -9,17 +9,17 @@ namespace ClassLibraryAntHill
     {
         public double X { get; private set; }
         public double Y { get; private set; }
-        public IPlace place { get; set; }
+        public IObjectField place { get; set; }
         private Ant ant;
-        public MovingCommand(double x,double y, Ant ant, IPlace p)
-        {
-            X = x;
-            Y = y;           
+        public MovingCommand( Ant ant, IObjectField p)
+        {        
             place = p;
             this.ant = ant;
         }
         public bool Execute()
         {
+            X = place.Center.X;
+            Y = place.Center.Y;
             double d = AntMath.Dist(X, Y, ant.Center.X, ant.Center.Y);
             if (d < 3)
             {
