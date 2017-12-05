@@ -70,7 +70,7 @@ namespace ClassLibraryAntHill
             }
             double a = Math.PI * rnd.NextDouble();
             Move(Math.Cos(a), Math.Sin(a));
-        }
+        }       
         public void BeAttaсked(int damage)
         {
             double a = -Math.Atan2(this.Center.Y - this.LastY, Center.X - this.LastX);

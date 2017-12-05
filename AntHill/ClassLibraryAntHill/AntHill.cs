@@ -74,6 +74,7 @@ namespace ClassLibraryAntHill
         public int Totalnumber { get; private set; }
         private int NumberWorkers = 0;
         private int NumberWarrors = 0;
+        private int NumberLarvae = 0;
         public Field field { get; private set; }
 
         public AntHill(PointF center, List<Node> N, float rad, int n)
@@ -193,6 +194,7 @@ namespace ClassLibraryAntHill
             {
                 BornAnt("Ant" + Totalnumber.ToString());
             }
+            BornMother("Mother 1");
         }
         private static Random rnd = new Random();
         public void BornAnt(string name)
@@ -219,6 +221,31 @@ namespace ClassLibraryAntHill
             }
             ant.SetHome(this);//Установить дом
             CorrectLocation(ant);//Установить начальное положение в каком-то из Node
+            Ants.Add(ant);
+        }
+        public void CreateLarvae()
+        {
+            Totalnumber++;
+            float x;
+            float y;
+            do
+            {
+                x = rnd.Next((int)(Center.X - radius/4), (int)(Center.X + radius/4));
+                y = rnd.Next((int)(Center.Y-radius/2 - radius/4), (int)(Center.Y - radius / 2 + radius/4));
+            }
+            while (!isInside(x, y));
+            Ant ant = new Larvae(x, y, "larvae") { Dispose = (a) => { Ants.Remove((Ant)a); NumberLarvae--; Totalnumber--; } }; 
+            NumberLarvae++;
+            ant.SetHome(this);
+            CorrectLocation(ant);
+            Ants.Add(ant);
+        }
+        public void BornMother(string name)
+        {
+            Totalnumber++;
+            Ant ant = new Mother(Center.X, Center.Y, name);
+            ant.SetHome(this);
+            CorrectLocation(ant);
             Ants.Add(ant);
         }
         public List<Node> Deicstra(Node firstnode, Node finishnode)
