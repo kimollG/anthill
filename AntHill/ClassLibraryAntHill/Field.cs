@@ -8,6 +8,10 @@ namespace ClassLibraryAntHill
 
     public class Field : IObjectField
     {
+       
+        ImageFlyweight enemyImage = new ImageFlyweight(Image.FromFile("../../../Photos/enemy.png"));
+        ImageFlyweight fullFoodImage = new ImageFlyweight(Image.FromFile("../../../Photos/FullFood.png"));
+        
         static Random rnd = new Random();
         public List<AntHill> AntHills { get; private set; }
         private List<Ant> Pests;
@@ -71,7 +75,7 @@ namespace ClassLibraryAntHill
                 y = rnd.Next(5, TotalWide);
             }
             while (AntMath.Dist(AntHills[0].Center, new PointF(x, y)) < AntHills[0].radius + 50);
-            Foods.Add(new Food(new PointF(x, y)) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); } });
+            Foods.Add(new Food(new PointF(x, y)) { Dispose = (a) => { Foods.Remove((Food)a); AntHills[0].OpenFoods.Remove((Food)a); },ImageFlyWeight=fullFoodImage });
         }
         public bool isInside(double x, double y)
         {
@@ -115,7 +119,7 @@ namespace ClassLibraryAntHill
                 y = Math.Abs(rnd.Next(0, 2) * TotalWide - 20);
             }
             Enemy pest;
-            pest = new Enemy(100, new PointF(x, y) ) { Dispose = (a) => { Pests.Remove((Ant)a); } };
+            pest = new Enemy(100, new PointF(x, y) ) { Dispose = (a) => { Pests.Remove((Ant)a); },ImageFlyWeight=enemyImage };
             pest.SetHome(null);//Установить дом
             pest.setField(this);//Установить поле
             Pests.Add(pest);

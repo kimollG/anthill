@@ -7,14 +7,14 @@ using System.Text;
 namespace ClassLibraryAntHill
 {
     public class WorkerAnt : Ant
-    {   
+    {
+        public ImageFlyweight FoodImageFlyweight{get;set; }
         internal bool IsBringing { get; set; }
         public WorkerAnt(float x, float y, string name) : base(x, y, name)
         {            
             IsBringing = false;
             Speed = 3;
-            imSelf = Image.FromFile("../../../Photos/smallAnt.png");
-            imFood = Image.FromFile("../../../Photos/leaf.png");
+            
         }
         public override void Thinking()
         {
@@ -84,9 +84,10 @@ namespace ClassLibraryAntHill
                 }
             }
         }
-        Image imSelf,imFood;
+        
         public override void Draw(Graphics g)
         {
+            Image imSelf = ImageFlyWeight.GetImage,imFood=FoodImageFlyweight.GetImage;
             double a = 180 / Math.PI * Math.Atan((this.LastY - this.Center.Y) / (this.LastX - this.Center.X));
             g.TranslateTransform(Convert.ToSingle(this.Center.X - 4), Convert.ToSingle(this.Center.Y - 4));
             g.RotateTransform(Convert.ToSingle(a));

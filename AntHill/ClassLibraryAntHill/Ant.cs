@@ -8,6 +8,7 @@ namespace ClassLibraryAntHill
 {
     public abstract class Ant : IDrawable, IDispose, IObjectField
     {
+        public ImageFlyweight ImageFlyWeight { get; set; }
         public abstract void Draw(Graphics g);
         internal ICommand command;
         private PointF center;
