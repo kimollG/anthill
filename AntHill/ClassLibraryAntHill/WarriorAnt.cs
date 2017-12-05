@@ -58,9 +58,13 @@ namespace ClassLibraryAntHill
                     if (command is WalkatHomeCommand)
                     {
                         if (command.place is Field)
+                        {
+                            AtHome = false;
                             SetCommand(new FindingCommand(this, new Field(), Home.OpenEnemies, Convert.ToSingle(Math.Atan2(this.Center.Y - Home.Center.Y, Center.X - Home.Center.X))));
+                        }
                         else
                         {
+                            AtHome = true;
                             SetCommand(new WalkatHomeCommand(this, TypeOfNodes.exit, new Field()));
                         }
                     }
